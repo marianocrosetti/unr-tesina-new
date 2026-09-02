@@ -15,18 +15,18 @@ TAUS="0.001 0.1 0.3 0.5 0.75 1.0 1.5"
 
 gen() { # tag, generator args...
   local TAG=$1; shift
-  [ -f data/${TAG}.npz ]      || uv run python -m c4.generate --out data/${TAG}      --n-games $N_GAMES --seed 1 "$@"
-  [ -f data/${TAG}_test.npz ] || uv run python -m c4.generate --out data/${TAG}_test --n-games $N_TEST  --seed 2 "$@"
+  [ -f data/${TAG}.npz ]      || ${PY:-uv run python} -m c4.generate --out data/${TAG}      --n-games $N_GAMES --seed 1 "$@"
+  [ -f data/${TAG}_test.npz ] || ${PY:-uv run python} -m c4.generate --out data/${TAG}_test --n-games $N_TEST  --seed 2 "$@"
 }
 run() { # tag
   local TAG=$1
   for S in $SEEDS; do
-    [ -f runs/${TAG}/seed${S}/final.pt ] || uv run python -m c4.train --data data/${TAG}.npz --out runs/${TAG}/seed${S} \
+    [ -f runs/${TAG}/seed${S}/final.pt ] || ${PY:-uv run python} -m c4.train --data data/${TAG}.npz --out runs/${TAG}/seed${S} \
         --seed $S --epochs $EPOCHS --ckpt-every 1000
-    [ -f results/${TAG}/seed${S}/states.json ] || uv run python -m c4.evaluate states --ckpt runs/${TAG}/seed${S}/final.pt \
+    [ -f results/${TAG}/seed${S}/states.json ] || ${PY:-uv run python} -m c4.evaluate states --ckpt runs/${TAG}/seed${S}/final.pt \
         --data data/${TAG}_test.npz --out results/${TAG}/seed${S}/states.json --taus $TAUS
     for T in 0.001 1.0; do
-      [ -f results/${TAG}/seed${S}/match_expert_t${T}.json ] || uv run python -m c4.evaluate match \
+      [ -f results/${TAG}/seed${S}/match_expert_t${T}.json ] || ${PY:-uv run python} -m c4.evaluate match \
           --ckpt runs/${TAG}/seed${S}/final.pt --data data/${TAG}_test.npz --tau $T --games 400 \
           --out results/${TAG}/seed${S}/match_expert_t${T}.json
     done
@@ -45,4 +45,4 @@ if [ "$EXTRA" = "1" ]; then
   gen blind_p4_rho0.0 --mode blind --blind-plies 4 --rho 0.0; run blind_p4_rho0.0   # user's original blindness setup
 fi
 
-uv run python -m c4.plots --results results --runs runs --out results/figs
+${PY:-uv run python} -m c4.plots --results results --runs runs --out results/figs

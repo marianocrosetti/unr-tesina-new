@@ -7,11 +7,11 @@ while IFS='|' read -r TAG ARGS; do
   [ -z "$TAG" ] && continue
   if [ ! -f data/${TAG}_test.npz ]; then
     echo "[$(date +%H:%M:%S)] gen test $TAG"
-    uv run python -m c4.generate --out data/${TAG}_test --n-games $N_TEST --seed 2 --workers $WORKERS $ARGS > overnight/gen_${TAG}_test.json 2>/dev/null
+    ${PY:-uv run python} -m c4.generate --out data/${TAG}_test --n-games $N_TEST --seed 2 --workers $WORKERS $ARGS > overnight/gen_${TAG}_test.json 2>/dev/null
   fi
   if [ ! -f data/${TAG}.npz ]; then
     echo "[$(date +%H:%M:%S)] gen train $TAG ($N_GAMES games)"
-    uv run python -m c4.generate --out data/${TAG} --n-games $N_GAMES --seed 1 --workers $WORKERS $ARGS > overnight/gen_${TAG}.json 2>/dev/null
+    ${PY:-uv run python} -m c4.generate --out data/${TAG} --n-games $N_GAMES --seed 1 --workers $WORKERS $ARGS > overnight/gen_${TAG}.json 2>/dev/null
     grep -E '"seconds"|"error_rate"|"shared_error_rate"|"mean_length"' overnight/gen_${TAG}.json | tr -d '\n'; echo
   fi
 done < configs/overnight_queue.txt

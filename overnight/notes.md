@@ -117,3 +117,5 @@
 ## 08:06 — stopped by request (Mariano starts work). Seed-1 queue interrupted during iid π=1 seed 1 (partial run deleted).
 Resume later with:  OMP_NUM_THREADS=2 SEED=1 QUEUE=configs/overnight_queue_seed1.txt ./scripts/overnight_train2.sh
 (all data already generated; the script skips finished runs).
+
+## 10:48 — RunPod pod created: id vwd3mssu0ihgsl, RTX 4090 secure ($0.74/h), image runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404, 40GB /workspace volume, SSH key injected.
