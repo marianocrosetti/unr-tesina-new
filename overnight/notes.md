@@ -79,3 +79,27 @@
 - P(centre | empty board) = 0.0001 at τ=1 and 0.0000 at τ→0; after other first moves also ~0. The τ=1 distribution over the
   six remaining columns is uniform (0.163–0.170) as in the data. **No discovery at all**, as Theorem 2 and the taxonomy
   predict for a learnable, in-support, shared error with no competent expert.
+
+## 05:23 — selection α=0.2 (below the predicted threshold 1/3), 1600 steps
+- Mixture mass 0.40 optimal vs 0.60 shared wrong. Best expert acc 0.518 / E[r] 0.322.
+- Model τ=1: acc 0.597, E[r] 0.348 (≈ mixture, above the best expert). Model τ→0: acc 0.501, E[r] 0.279 → **−0.043,
+  no transcendence, low temperature hurts** as predicted. acc on states with a wrong move 0.223 at τ→0.
+- Sign of the τ→0 gain across α so far: 0.0 → −0.104, 0.2 → −0.043, 0.45 → +0.126, 1.0 → +0.169. The flip lies between
+  0.2 and 0.45, consistent with α* = 1/3. Interesting side result: at τ=1 the routed mixture already beats the best expert
+  for every α > 0 tested (selection transcendence does not need low temperature; denoising does).
+
+## 05:53 — selection α=0.7, 1600 steps
+- Mixture mass 0.775 optimal. Best expert acc 0.639 / E[r] 0.309. Model τ=1 acc 0.804 / E[r] 0.409; τ→0 acc 0.884 /
+  E[r] 0.479 → **+0.170**. acc on states with a wrong move 0.759 at τ→0 (α=0.45 gave 0.597, α=1 gave 0.931: the finite
+  model's argmax follows the mixture margin smoothly rather than switching at the threshold).
+- Full α sweep, τ→0 gain in E[r] vs best expert: 0 → −0.104 | 0.2 → −0.043 | 0.45 → +0.126 | 0.7 → +0.170 | 1.0 → +0.169.
+
+## 06:22 — complementary experts (Theorem 4: K=4, each optimal in its region, uniformly random elsewhere), 1600 steps
+- Best single expert E[r] 0.436; the uniform mixture has acc 0.725. Model τ=1 acc 0.668 / E[r] 0.361 (flatter than the
+  mixture, as everywhere). Model τ→0 acc 0.851 / E[r] 0.513 → **+0.077 vs best expert**. Theory ceiling acc 1.0.
+- Same regime as iid π=0 (uncorrelated errors → majority vote works), larger gain because the experts are individually much
+  worse while the mixture's argmax is still optimal everywhere.
+
+## 06:52 — iid π=0.25, 1600 steps
+- expert acc 0.846 / E[r] 0.463. Model τ→0 acc 0.878 / E[r] 0.490 → **+0.027**. Bias states 0.403, non-bias 0.897.
+- π series (τ→0 gain in E[r]): 0 → +0.040 | 0.25 → +0.027 | 0.5 → +0.017 | 1.0 → −0.017. Monotone as predicted (π=0.75 pending).

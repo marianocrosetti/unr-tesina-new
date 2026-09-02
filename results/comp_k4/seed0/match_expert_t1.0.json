@@ -1,0 +1,21 @@
+{
+  "ckpt": "runs/comp_k4/seed0/final.pt",
+  "opponent": "expert",
+  "opponent_cfg": {
+    "mode": "complementary",
+    "rho": 0.3,
+    "pi": 0.0,
+    "k": 4,
+    "alpha": 0.0,
+    "blind_plies": 4,
+    "rule_mod": 3,
+    "bias_seed": 12345
+  },
+  "tau": 1.0,
+  "games": 150,
+  "win": 52,
+  "draw": 0,
+  "loss": 98,
+  "illegal_loss": 2,
+  "score": 0.3466666666666667
+}

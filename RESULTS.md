@@ -12,6 +12,7 @@ Prediction: acc(τ→0) ≈ 1 − shared-error rate; gain over the expert ≈ re
 | π | seeds | expert acc | acc τ=1 | acc τ→0 | **theory acc τ→0** | E[r] τ→0 − best expert | acc τ→0 bias states | bias states by phase (open/mid/late) | acc τ→0 non-bias | match τ→0 | match τ=1 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | 0.0 | 1 | 84.5 | 76.3 | 89.0 | 100.0 | 4.0 | – | –/–/– | 89.0 | 70.0 | 18.7 |
+| 0.5 | 1 | 85.7 | 77.9 | 87.6 | 93.5 | 1.7 | 43.0 | 12.3/63.2/58.6 | 90.7 | 72.0 | 27.3 |
 | 1.0 | 1 | 86.7 | 80.6 | 84.5 | 86.7 | -1.7 | 28.4 | 0.7/40.9/56.3 | 93.2 | 61.3 | 26.7 |
 
 ## Skill selection: routing strength α with fully shared errors outside expertise
@@ -21,22 +22,35 @@ Prediction: τ→0 transcends the best expert iff α > α* = 0.333. Mixture mass
 | α | predicted | seeds | best expert acc | mixture acc | acc τ=1 | acc τ→0 | E[r] τ→0 − best expert | transcends? | match τ→0 | match τ=1 |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 0.0 | no | 1 | 48.5 | 45.2 | 47.5 | 36.6 | -10.4 | no | 19.7 | 48.0 |
+| 0.2 | no | 1 | 54.9 | 61.4 | 59.7 | 50.1 | -4.3 | no | 52.7 | 56.0 |
+| 0.45 | yes | 1 | 62.0 | 77.3 | 71.4 | 77.8 | 12.6 | yes | 86.0 | 62.3 |
+| 0.7 | yes | 1 | 67.5 | 89.2 | 80.4 | 88.4 | 17.0 | yes | 86.7 | 67.7 |
 | 1.0 | yes | 1 | 78.1 | 100.0 | 94.4 | 97.6 | 16.9 | yes | 84.0 | 62.0 |
 
 ## Other conditions
 
-| condition | seeds | best expert acc | mixture acc | acc τ=1 | acc τ→0 | E[r] τ→0 − best expert | acc τ→0 bias states (expert on same states) | bias by phase (open/mid/late) | match τ→0 |
+| condition | seeds | best expert acc | mixture acc | acc τ=1 | acc τ→0 | E[r] τ→0 − best expert | acc τ→0 bias states (expert acc on same states) | bias by phase (open/mid/late) | match τ→0 |
 |---|---|---|---|---|---|---|---|---|---|
+| blind_p4_rho0.0 | 1 | 96.3 | 96.3 | 87.5 | 91.7 | -3.8 | 74.4 (74.4) | 74.4/–/– | 28.3 |
+| comp_k4 | 1 | 75.7 | 72.5 | 66.8 | 85.1 | 7.7 | – (–) | –/–/– | 78.0 |
 | iid_rho0.3_pi0.0_steps800 | 1 | 84.5 | 84.5 | 74.5 | 86.9 | 2.1 | – (–) | –/–/– | 66.7 |
+| rule_mod3_left_rho0.3 | 1 | 72.9 | 72.9 | 67.2 | 75.0 | 1.9 | 51.1 (51.1) | 24.8/63.2/72.8 | 53.3 |
 
 ## Sanity checks
 
 | condition | states evaluated | mass on non-move tokens (τ=1) | mass on illegal columns (τ=1) | favor: frac states with abs ΔE[r] < 0.01 | favor: frac > +0.1 | favor: frac < −0.1 |
 |---|---|---|---|---|---|---|
+| blind_p4_rho0.0 | 83919 | 0.8 | 0.1 | 68.8 | 13.3 | 7.4 |
+| comp_k4 | 60477 | 1.4 | 0.1 | 42.8 | 41.0 | 11.7 |
 | iid_rho0.3_pi0.0 | 61419 | 1.3 | 0.1 | 47.9 | 39.4 | 8.4 |
 | iid_rho0.3_pi0.0_steps800 | 61419 | 1.7 | 0.2 | 47.3 | 37.4 | 9.9 |
+| iid_rho0.3_pi0.5 | 61744 | 1.5 | 0.1 | 50.2 | 33.4 | 7.8 |
 | iid_rho0.3_pi1.0 | 61667 | 1.5 | 0.1 | 75.0 | 13.4 | 7.2 |
+| rule_mod3_left_rho0.3 | 71470 | 1.7 | 0.1 | 65.4 | 25.4 | 6.7 |
 | sel_k4_a0.0 | 69598 | 1.5 | 0.1 | 26.8 | 9.5 | 58.5 |
+| sel_k4_a0.2 | 64541 | 1.5 | 0.1 | 35.6 | 14.1 | 46.6 |
+| sel_k4_a0.45 | 63205 | 1.3 | 0.1 | 44.7 | 32.2 | 19.5 |
+| sel_k4_a0.7 | 62547 | 1.6 | 0.1 | 51.6 | 34.4 | 9.3 |
 | sel_k4_a1.0 | 56578 | 0.7 | 0.1 | 81.7 | 10.9 | 2.2 |
 
 ## Figures

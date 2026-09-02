@@ -26,6 +26,7 @@ def fmt(vals, pct=True, pm=True):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--results", default="results"); ap.add_argument("--out", default="RESULTS.md")
+    ap.add_argument("--narrative", default="NARRATIVE.md", help="markdown file prepended to the tables (if it exists)")
     a = ap.parse_args()
     R = Path(a.results)
     by_tag = defaultdict(list)
@@ -87,12 +88,17 @@ def main():
     # --- others ---------------------------------------------------------------------
     oth = {t: ds for t, ds in by_tag.items() if t not in iid and t not in sel}
     if oth:
-        L += ["## Other conditions", "", "| condition | seeds | best expert acc | mixture acc | acc τ=1 | acc τ→0 | E[r] τ→0 − best expert | acc τ→0 bias states (expert on same states) | bias by phase (open/mid/late) | match τ→0 |",
+        L += ["## Other conditions", "", "| condition | seeds | best expert acc | mixture acc | acc τ=1 | acc τ→0 | E[r] τ→0 − best expert | acc τ→0 bias states (expert acc on same states) | bias by phase (open/mid/late) | match τ→0 |",
               "|---|---|---|---|---|---|---|---|---|---|"]
         for tag, ds in sorted(oth.items()):
             t0 = tmin(ds[0])
             bph = "/".join(fmt([d["taus"][t0].get("acc_bias_by_phase", [None]*3)[k] for d in ds]) for k in range(3))
-            eb = fmt([d["expert"].get("er_bias") for d in ds])
+            def exp_acc_bias(d):
+                ab, nb = d["expert"].get("acc_bias_by_phase"), d["expert"].get("n_bias_by_phase")
+                if not ab or not nb or sum(nb) == 0:
+                    return None
+                return sum(a * n for a, n in zip(ab, nb) if a is not None) / sum(nb)
+            eb = fmt([exp_acc_bias(d) for d in ds])
             L.append("| {} | {} | {} | {} | {} | {} | {} | {} | {} | {} |".format(
                 tag, len(ds), fmt([d["expert"]["best_acc"] for d in ds]), fmt([d["expert"]["mixture_acc"] for d in ds]),
                 fmt([d["taus"]["1.0"]["acc"] for d in ds]), fmt([d["taus"][t0]["acc"] for d in ds]),
@@ -109,7 +115,8 @@ def main():
     L += ["", "## Figures", "", "![reward vs tau](results/figs/fig1_reward_vs_tau.png)", "![gain vs pi](results/figs/fig2_gain_vs_pi.png)",
           "![selection](results/figs/fig6_selection_alpha.png)", "![bias vs nonbias](results/figs/fig3_bias_vs_nonbias.png)",
           "![favor](results/figs/fig4_favor.png)", "![training](results/figs/fig5_training.png)", ""]
-    Path(a.out).write_text("\n".join(L))
+    head = Path(a.narrative).read_text() + "\n" if Path(a.narrative).exists() else ""
+    Path(a.out).write_text(head + "\n".join(L))
     print("wrote", a.out)
 
 

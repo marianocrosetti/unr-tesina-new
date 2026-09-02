@@ -65,20 +65,28 @@ setup is included only as a control (`--mode blind`), not as a test of discovery
 third_party/connect4/   Pons' exact solver (AGPL) + 7x6.book (downloaded by scripts/setup.sh)
 c4/game.py              7x6 board, move-sequence tokens (BOS, 7 columns, 3 results, PAD)
 c4/solver.py            persistent solver subprocess (weak mode: win/draw/loss) + cache
-c4/experts.py           synthetic experts: modes iid (ρ, π) / complementary (K) / blind
+c4/experts.py           synthetic experts: modes iid (ρ, π) / complementary (K) / selection (K, α) / rule / blind
 c4/generate.py          multiprocess dataset generation -> data/<tag>.npz + .meta.json
 c4/model.py             nanoGPT-style decoder (default 8L/8H/256d ≈ 6.4M params)
 c4/train.py             next-token training; logs argmax accuracy & E[r] on val states every N steps
 c4/evaluate.py          `states`: logit-based E[r], P(optimal), bias/non-bias split, favor, per τ
                         `match`: head-to-head games vs expert / perfect bot (5 retries on illegal move)
-c4/plots.py             fig1 reward vs τ · fig2 gain vs π (+theory) · fig3 bias vs non-bias · fig4 favor · fig5 training
+c4/plots.py             fig1 reward vs τ · fig2 gain vs π (+theory) · fig6 selection gain vs α (+threshold) · fig3 bias vs non-bias · fig4 favor · fig5 training
+c4/report.py            RESULTS.md = NARRATIVE.md + auto-generated tables
 scripts/setup.sh        build solver, download book, `uv sync`
 scripts/smoke.sh        toy end-to-end run (minutes, CPU/MPS)
 scripts/run_grid.sh     full grid (5 π values × 3 seeds + complementary + blind)
+scripts/overnight_*.sh  the two queues (CPU data generation / MPS training+eval) used for the overnight run
 ```
 
 The imitator plays **blind**: it only ever sees the move sequence, like PGN in the paper. Every game
 ends with a result token (as the PGN result), training loss covers moves and result.
+
+## 3b. Results
+
+See **`RESULTS.md`** (narrative + auto-generated tables + figures) and `overnight/notes.md` (chronological log with the
+decisions taken during the overnight run). Settings actually used: 80k games/condition, 1600 steps × batch 512, one seed
+per condition plus second seeds for the core cells.
 
 ## 4. Running
 
