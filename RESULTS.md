@@ -9,15 +9,35 @@ Match score = (wins + 0.5 draws)/games of the imitator against an expert bot, al
 
 Prediction: acc(τ→0) ≈ 1 − shared-error rate; gain over the expert ≈ realized random-error rate; on bias states acc(τ→0) ≈ 0.
 
-| π | seeds | expert acc | acc τ=1 | acc τ→0 | **theory acc τ→0** | E[r] τ→0 − best expert | acc τ→0 bias states | acc τ→0 non-bias | match τ→0 | match τ=1 |
+| π | seeds | expert acc | acc τ=1 | acc τ→0 | **theory acc τ→0** | E[r] τ→0 − best expert | acc τ→0 bias states | bias states by phase (open/mid/late) | acc τ→0 non-bias | match τ→0 | match τ=1 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0.0 | 1 | 84.5 | 76.3 | 89.0 | 100.0 | 4.0 | – | –/–/– | 89.0 | 70.0 | 18.7 |
+| 1.0 | 1 | 86.7 | 80.6 | 84.5 | 86.7 | -1.7 | 28.4 | 0.7/40.9/56.3 | 93.2 | 61.3 | 26.7 |
+
+## Skill selection: routing strength α with fully shared errors outside expertise
+
+Prediction: τ→0 transcends the best expert iff α > α* = 0.333. Mixture mass on optimal = α + (1−α)/K.
+
+| α | predicted | seeds | best expert acc | mixture acc | acc τ=1 | acc τ→0 | E[r] τ→0 − best expert | transcends? | match τ→0 | match τ=1 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 0.0 | 1 | 84.5 | 74.5 | 86.9 | 100.0 | 2.1 | – | 86.9 | 66.7 | – |
+| 0.0 | no | 1 | 48.5 | 45.2 | 47.5 | 36.6 | -10.4 | no | 19.7 | 48.0 |
+| 1.0 | yes | 1 | 78.1 | 100.0 | 94.4 | 97.6 | 16.9 | yes | 84.0 | 62.0 |
+
+## Other conditions
+
+| condition | seeds | best expert acc | mixture acc | acc τ=1 | acc τ→0 | E[r] τ→0 − best expert | acc τ→0 bias states (expert on same states) | bias by phase (open/mid/late) | match τ→0 |
+|---|---|---|---|---|---|---|---|---|---|
+| iid_rho0.3_pi0.0_steps800 | 1 | 84.5 | 84.5 | 74.5 | 86.9 | 2.1 | – (–) | –/–/– | 66.7 |
 
 ## Sanity checks
 
 | condition | states evaluated | mass on non-move tokens (τ=1) | mass on illegal columns (τ=1) | favor: frac states with abs ΔE[r] < 0.01 | favor: frac > +0.1 | favor: frac < −0.1 |
 |---|---|---|---|---|---|---|
+| iid_rho0.3_pi0.0 | 61419 | 1.3 | 0.1 | 47.9 | 39.4 | 8.4 |
 | iid_rho0.3_pi0.0_steps800 | 61419 | 1.7 | 0.2 | 47.3 | 37.4 | 9.9 |
+| iid_rho0.3_pi1.0 | 61667 | 1.5 | 0.1 | 75.0 | 13.4 | 7.2 |
+| sel_k4_a0.0 | 69598 | 1.5 | 0.1 | 26.8 | 9.5 | 58.5 |
+| sel_k4_a1.0 | 56578 | 0.7 | 0.1 | 81.7 | 10.9 | 2.2 |
 
 ## Figures
 

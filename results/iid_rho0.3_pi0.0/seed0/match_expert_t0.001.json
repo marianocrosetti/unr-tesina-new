@@ -1,0 +1,21 @@
+{
+  "ckpt": "runs/iid_rho0.3_pi0.0/seed0/final.pt",
+  "opponent": "expert",
+  "opponent_cfg": {
+    "mode": "iid",
+    "rho": 0.3,
+    "pi": 0.0,
+    "k": 4,
+    "alpha": 0.0,
+    "blind_plies": 4,
+    "rule_mod": 3,
+    "bias_seed": 12345
+  },
+  "tau": 0.001,
+  "games": 150,
+  "win": 105,
+  "draw": 0,
+  "loss": 45,
+  "illegal_loss": 8,
+  "score": 0.7
+}

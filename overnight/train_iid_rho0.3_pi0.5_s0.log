@@ -1,0 +1,14 @@
+device=mps params=6.33M train_games=78400 steps=1600 tokens/epoch=3.4M
+step 1/1600 loss 2.4901 lr 6.00e-06 2s
+step 50/1600 loss 1.9206 lr 3.00e-04 53s
+step 100/1600 loss 1.8562 lr 6.00e-04 107s
+step 150/1600 loss 1.8246 lr 5.99e-04 156s
+step 200/1600 loss 1.8208 lr 5.94e-04 207s
+EVAL {"step": 200, "train_loss": 1.8207546472549438, "val_loss": 1.815697431564331, "elapsed": 209.48038578033447, "acc_argmax": 0.828371597993006, "er_argmax": 0.4476357001672495, "er_tau1": 0.3775522375451728}
+step 250/1600 loss 1.8026 lr 5.87e-04 265s
+step 300/1600 loss 1.7799 lr 5.77e-04 316s
+step 350/1600 loss 1.7641 lr 5.64e-04 365s
+step 400/1600 loss 1.7640 lr 5.48e-04 420s
+EVAL {"step": 400, "train_loss": 1.7640026807785034, "val_loss": 1.7501355409622192, "elapsed": 427.9257559776306, "acc_argmax": 0.8411737874410825, "er_argmax": 0.45792914702752013, "er_tau1": 0.3837365845500728}
+step 450/1600 loss 1.7323 lr 5.31e-04 477s
+step 500/1600 loss 1.7340 lr 5.11e-04 529s

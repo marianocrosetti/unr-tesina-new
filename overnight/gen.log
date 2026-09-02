@@ -8,3 +8,14 @@
 [00:30:01] gen train sel_k4_a0.0 (80000 games)
 [01:14:25] gen test sel_k4_a1.0
 [01:15:32] gen train sel_k4_a1.0 (80000 games)
+[01:44:22] gen test rule_mod3_left_rho0.3
+[01:46:01] gen train rule_mod3_left_rho0.3 (80000 games)
+  "seconds": 2841.9,  "mean_length": 23.9433875,  "error_rate": 0.27188456520615556,  "shared_error_rate": 0.16919441745659422,
+[02:33:25] gen test sel_k4_a0.45
+[02:35:09] gen train sel_k4_a0.45 (80000 games)
+  "seconds": 1979.1,  "mean_length": 20.977825,  "error_rate": 0.23019307292343225,  "shared_error_rate": 0.23019307292343225,
+[03:08:10] gen test iid_rho0.3_pi0.5
+[03:09:04] gen train iid_rho0.3_pi0.5 (80000 games)
+  "seconds": 1562.8,  "mean_length": 20.6837,  "error_rate": 0.14554032885798962,  "shared_error_rate": 0.06728124078380561,
+[03:35:08] gen test blind_p4_rho0.0
+[03:36:46] gen train blind_p4_rho0.0 (80000 games)

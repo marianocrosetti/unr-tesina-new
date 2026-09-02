@@ -1,0 +1,66 @@
+# Overnight notes (running log of findings, in order)
+
+## 00:21 — iid π=0, 800 steps (archived as *_steps800)
+- expert acc 0.845 / E[r] 0.461. Model τ=1: acc 0.745, E[r] 0.380 (below the mixture: underfit, val loss still falling).
+- Model τ→0: acc 0.869, E[r] 0.483 → **transcends** (+0.021). Match vs expert at τ→0: 0.667 (10/150 illegal losses).
+- By phase (open/mid/late): model E[r] 0.547/0.442/0.442 vs expert 0.450/0.462/0.490 → transcendence is concentrated in the
+  opening (dense data); in later, mostly unseen states the 800-step model is still below the expert.
+- Decision: 800 steps is undertrained (τ=1 acc 0.745 < expert 0.845). Switched to 1600 steps for all runs.
+
+## 01:21 — iid π=1, 1600 steps
+- expert acc 0.867. Model τ=1 acc 0.806; τ→0 acc 0.845, E[r] 0.454 vs best expert 0.472 → **no transcendence on the expert
+  state distribution** (−0.017), as predicted. Yet head-to-head match at τ→0: 0.613 (15 illegal losses).
+- acc on bias states at τ→0: 0.284 overall, **by phase 0.007 / 0.409 / 0.563**. Non-bias: 0.998 / 0.903 / 0.849.
+- Interpretation: on *seen* states (opening) the shared error is reproduced exactly (Theorem 2: argmax of the mixture is the
+  error). On *unseen* states the hash-defined bias is unpredictable, so the model generalizes the majority behaviour
+  (optimal) → partial "denoising" of a shared error that is shared across experts but random across states. This is a
+  finite-data / generalization effect outside the per-state theory, and it explains the positive match score: the match is
+  played on the model's own state distribution where most states are new.
+- Consequence for the design: a shared bias only survives low temperature if it is *learnable* (a function of the state
+  the model can represent). Added the `rule` condition (all experts play the leftmost legal column on plies divisible by 3)
+  as the proper H2 test; the opening-blindness condition is the other learnable shared bias.
+
+## 01:57 — selection α=0 (uniform routing, fully shared errors outside expertise), 1600 steps
+- Best single expert acc 0.452 / E[r] 0.332. Mixture puts 0.25 on the optimal move and 0.75 on the shared wrong move.
+- Model τ=1: acc 0.475, E[r] 0.314 (≈ mixture). Model τ→0: acc 0.366, E[r] 0.228 → **−0.104 vs best expert: low
+  temperature makes it worse**, exactly as Theorem 2 predicts when the argmax of the mixture is the shared error.
+- acc on states with a wrong move available: 0.132 at τ→0 (the model commits the shared error); states with no wrong
+  move: 1.000. Match vs expert bot: 0.197 at τ→0 vs 0.480 at τ=1 — head-to-head confirms that low temperature hurts here.
+- This is the anti-transcendence corner of the α sweep; α=1 should be the opposite corner.
+
+## 02:28 — selection α=1 (perfect routing), 1600 steps
+- Best single expert acc 0.737 / E[r] 0.336 (each expert is optimal only in its region). Mixture with perfect routing is optimal.
+- Model τ=1: acc 0.944, E[r] 0.477 (already far above the best expert: routing alone gives transcendence, no temperature needed).
+  Model τ→0: acc 0.976, E[r] 0.504 → **+0.169 vs best expert**. acc on states with a wrong move 0.931, others 1.000.
+- Together with α=0 (−0.104) the two corners of the α sweep bracket the predicted threshold α*=1/3. Intermediate α pending.
+
+## 02:58 — iid π=0, 1600 steps (replaces the 800-step run)
+- expert acc 0.845 / E[r] 0.461. Model τ=1: acc 0.763, E[r] 0.395 (still flatter than the mixture). Model τ→0: acc 0.890,
+  E[r] 0.501 → **+0.040 vs expert** (800 steps gave +0.021: the gain grows with training). Theory ceiling acc 1.0.
+- Head-to-head vs expert: τ→0 wins, τ=1 loses (0.187) — at τ=1 the imitator is a *noisier* copy of a noisy expert.
+- Reading: the imitator has not fit the mixture (τ=1 acc 0.763 < 0.845); low temperature removes both the experts' noise
+  and the model's own residual entropy. The gap to the theoretical ceiling (1.0) is a measurement of how far a 6M model
+  trained on 80k games is from the argmax of the mixture on unseen states.
+
+## 03:26 — rule condition (learnable shared bias: leftmost legal column on plies divisible by 3, plus ρ=0.3 iid noise), 1600 steps
+- Realized error rates on the test set: shared 0.169, random 0.100 (total 0.269). Expert acc 0.729 / E[r] 0.404.
+- Model τ=1: acc 0.672, E[r] 0.356. Model τ→0: acc 0.750, E[r] 0.423 → **+0.019 vs expert**. Theory (rule reproduced
+  exactly, random errors denoised): acc 0.831. Observed: non-bias states 0.875 (theory 1.0), rule plies 0.511 (theory 0.287).
+- Rule plies by phase: **0.248 / 0.632 / 0.728**. In the opening (seen states) the model follows the shared rule, as Thm 2 says.
+  In unseen mid/late states it increasingly plays the *optimal* move instead of the rule, even though the rule is a simple,
+  learnable function of the sequence (ply index and column occupancy). Same pattern as the hash bias in π=1, weaker.
+- **Resolved with the checkpoint sweep and the expert baseline:** the expert's own accuracy on rule plies is exactly
+  0.248 / 0.632 / 0.728 (= how often the leftmost legal column happens to be optimal). The model matches it to three
+  decimals at every checkpoint from step 200 on. So the model learned the shared rule *immediately and exactly*, in seen
+  and unseen states alike; the apparent "0.73 optimal" late in the game is just the rule coinciding with the optimum.
+  → **H2 confirmed cleanly**: a learnable shared error is reproduced by the τ→0 imitator and cannot be denoised
+  (Theorem 2). The gain (+0.019) comes only from denoising the random part (non-bias states 0.875 vs expert ≈ 0.90·…).
+- Contrast with π=1 (hash bias): expert acc on bias states 0/0/0, model 0.007 / 0.409 / 0.563. Unlearnable (state-random)
+  shared errors are generalized away on unseen states; learnable ones are not. The relevant notion of "shared" for
+  Theorem 2 in a finite model is therefore *shared and representable*, not just shared across experts.
+
+## 03:55 — selection α=0.45 (above the predicted threshold 1/3), 1600 steps
+- Mixture mass on optimal 0.5875 vs 0.4125 on the shared wrong move. Best expert acc 0.588 / E[r] 0.311.
+- Model τ=1: acc 0.714, E[r] 0.378. Model τ→0: acc 0.778, E[r] 0.438 → **+0.126 vs best expert, transcends as predicted**.
+- acc on states with a wrong move: 0.597 at τ→0 (theory 1.0 if the argmax were taken on the exact mixture). With a
+  0.59/0.41 margin the finite model's argmax flips often → the threshold will look smoothed, not sharp.
