@@ -113,3 +113,7 @@
 ## 07:55 — second seeds start landing (gen finished 06:36; training only now, ~1.1 s/step)
 - iid π=0 seed 1: τ→0 E[r] 0.503 vs expert 0.461 → **+0.042** (seed 0: +0.040). τ=1 acc 0.761 (seed 0: 0.763). Seed
   variance in the headline number is ≈0.002, far below the between-condition differences.
+
+## 08:06 — stopped by request (Mariano starts work). Seed-1 queue interrupted during iid π=1 seed 1 (partial run deleted).
+Resume later with:  OMP_NUM_THREADS=2 SEED=1 QUEUE=configs/overnight_queue_seed1.txt ./scripts/overnight_train2.sh
+(all data already generated; the script skips finished runs).
