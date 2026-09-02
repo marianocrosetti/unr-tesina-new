@@ -109,3 +109,7 @@
 - Final π series (τ→0 gain in E[r]): 0 → +0.040 | 0.25 → +0.027 | 0.5 → +0.017 | 0.75 → +0.004 | 1.0 → −0.017.
   Monotone and close to linear in π, as the theory's ρ(1−π) shape predicts, at ~¼ of the theoretical slope.
 - Seed-0 grid complete (13 conditions). Seed-1 queue for the core cells starts now.
+
+## 07:55 — second seeds start landing (gen finished 06:36; training only now, ~1.1 s/step)
+- iid π=0 seed 1: τ→0 E[r] 0.503 vs expert 0.461 → **+0.042** (seed 0: +0.040). τ=1 acc 0.761 (seed 0: 0.763). Seed
+  variance in the headline number is ≈0.002, far below the between-condition differences.
