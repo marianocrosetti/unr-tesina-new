@@ -37,17 +37,21 @@ def main():
     for tag, seed, d in rows:
         by_tag[tag].append(d)
 
-    # Fig 1: E[r] vs tau per condition (mean ± std over seeds) + best-expert line --------------
-    fig, ax = plt.subplots(figsize=(7, 4.5))
-    for tag, ds in sorted(by_tag.items()):
-        taus = sorted(float(t) for t in ds[0]["taus"])
-        er = np.array([[d["taus"][str(t)]["er"] for t in taus] for d in ds])
-        m, s = er.mean(0), er.std(0)
-        line, = ax.plot(taus, m, marker="o", label=tag)
-        ax.fill_between(taus, m - s, m + s, alpha=0.2, color=line.get_color())
-        ax.axhline(np.mean([d["expert"]["best_er"] for d in ds]), ls="--", lw=0.8, color=line.get_color())
-    ax.set_xscale("log"); ax.set_xlabel("temperature τ"); ax.set_ylabel("expected reward E[r] on held-out expert states")
-    ax.set_title("Imitator reward vs temperature (dashed = best expert)"); ax.legend(fontsize=7)
+    # Fig 1: E[r] vs tau per condition (mean ± std over seeds) + best-expert line, two panels -------
+    fam = {"iid / other": [t for t in by_tag if not t.startswith("sel_")], "selection (α sweep)": [t for t in by_tag if t.startswith("sel_")]}
+    fig, axes = plt.subplots(1, 2, figsize=(13, 4.8))
+    for ax, (name, tags) in zip(axes, fam.items()):
+        for tag in sorted(tags):
+            ds = by_tag[tag]
+            taus = sorted(float(t) for t in ds[0]["taus"])
+            er = np.array([[d["taus"][str(t)]["er"] for t in taus] for d in ds])
+            m, s_ = er.mean(0), er.std(0)
+            line, = ax.plot(taus, m, marker="o", ms=4, label=tag)
+            ax.fill_between(taus, m - s_, m + s_, alpha=0.2, color=line.get_color())
+            ax.axhline(np.mean([d["expert"]["best_er"] for d in ds]), ls="--", lw=0.8, color=line.get_color())
+        ax.set_xscale("log"); ax.set_xlabel("temperature τ"); ax.set_title(name); ax.legend(fontsize=6)
+    axes[0].set_ylabel("expected reward E[r] on held-out expert states")
+    fig.suptitle("Imitator reward vs temperature (dashed = best expert of that condition)")
     fig.tight_layout(); fig.savefig(out / "fig1_reward_vs_tau.png", dpi=150); plt.close(fig)
 
     # Fig 2: transcendence gain at min tau vs pi (iid family), with theory line rho*(1-pi) -------
