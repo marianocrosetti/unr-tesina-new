@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+third_party/connect4/*.o
+third_party/connect4/c4solver
+third_party/connect4/generator
+third_party/connect4/.depend
+third_party/connect4/*.book
+data/
+runs/
+results/*.png
+results/**/*.pt

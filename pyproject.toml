@@ -1,0 +1,19 @@
+[project]
+name = "c4-transcendence"
+version = "0.1.0"
+description = "Does error diversity (not error rate) enable transcendence under low-temperature sampling? Controlled Connect-4 replication of Zhang et al. 2024."
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26",
+    "torch>=2.3",
+    "tqdm>=4.66",
+    "matplotlib>=3.8",
+    "pandas>=2.2",
+]
+
+[tool.setuptools]
+packages = ["c4"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

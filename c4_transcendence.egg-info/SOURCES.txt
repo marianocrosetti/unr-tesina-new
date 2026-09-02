@@ -1,0 +1,15 @@
+pyproject.toml
+c4/__init__.py
+c4/evaluate.py
+c4/experts.py
+c4/game.py
+c4/generate.py
+c4/model.py
+c4/plots.py
+c4/solver.py
+c4/train.py
+c4_transcendence.egg-info/PKG-INFO
+c4_transcendence.egg-info/SOURCES.txt
+c4_transcendence.egg-info/dependency_links.txt
+c4_transcendence.egg-info/requires.txt
+c4_transcendence.egg-info/top_level.txt

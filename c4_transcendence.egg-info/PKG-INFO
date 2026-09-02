@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: c4-transcendence
+Version: 0.1.0
+Summary: Does error diversity (not error rate) enable transcendence under low-temperature sampling? Controlled Connect-4 replication of Zhang et al. 2024.
+Requires-Python: >=3.11
+Requires-Dist: numpy>=1.26
+Requires-Dist: torch>=2.3
+Requires-Dist: tqdm>=4.66
+Requires-Dist: matplotlib>=3.8
+Requires-Dist: pandas>=2.2
