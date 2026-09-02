@@ -119,3 +119,11 @@ Resume later with:  OMP_NUM_THREADS=2 SEED=1 QUEUE=configs/overnight_queue_seed1
 (all data already generated; the script skips finished runs).
 
 ## 10:48 — RunPod pod created: id vwd3mssu0ihgsl, RTX 4090 secure ($0.74/h), image runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404, 40GB /workspace volume, SSH key injected.
+
+## RunPod notes
+- Pod vwd3mssu0ihgsl (RTX 4090 secure, 0.74 USD/h): `nproc` reports 96 but the cgroup quota is 10.2 CPUs
+  (cpu.cfs_quota_us=1020000). Data generation must use ~10 workers, not 80. Training: 0.065 s/step (1600 steps ≈ 1.7 min).
+- Upload Mac → pod ≈ 200 KB/s: 438 MB of datasets take ~50 min. Next time regenerate on the pod instead (deterministic given
+  seed AND --workers, since chunking depends on the worker count).
+- GPU queue = scripts/gpu_queue.sh (phase A: seeds 1-2 for all 13 conditions; phase B: scaling study on pi=0, pi=1, rule with
+  80k vs 320k games × 1600/6400/25600 steps). Armed by scripts/arm_gpu_queue.sh.
