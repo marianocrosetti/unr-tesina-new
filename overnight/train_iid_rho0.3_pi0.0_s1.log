@@ -1,0 +1,2 @@
+device=mps params=6.33M train_games=78400 steps=1600 tokens/epoch=3.4M
+step 1/1600 loss 2.6417 lr 6.00e-06 2s

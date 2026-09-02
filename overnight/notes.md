@@ -103,3 +103,9 @@
 ## 06:52 — iid π=0.25, 1600 steps
 - expert acc 0.846 / E[r] 0.463. Model τ→0 acc 0.878 / E[r] 0.490 → **+0.027**. Bias states 0.403, non-bias 0.897.
 - π series (τ→0 gain in E[r]): 0 → +0.040 | 0.25 → +0.027 | 0.5 → +0.017 | 1.0 → −0.017. Monotone as predicted (π=0.75 pending).
+
+## 07:23 — iid π=0.75, 1600 steps
+- expert acc 0.866 / E[r] 0.472. Model τ→0 acc 0.869 / E[r] 0.476 → **+0.004**. Bias states 0.390, non-bias 0.919.
+- Final π series (τ→0 gain in E[r]): 0 → +0.040 | 0.25 → +0.027 | 0.5 → +0.017 | 0.75 → +0.004 | 1.0 → −0.017.
+  Monotone and close to linear in π, as the theory's ρ(1−π) shape predicts, at ~¼ of the theoretical slope.
+- Seed-0 grid complete (13 conditions). Seed-1 queue for the core cells starts now.

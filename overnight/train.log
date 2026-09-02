@@ -75,3 +75,10 @@ EVAL {"step": 1600, "train_loss": 1.6860378980636597, "val_loss": 1.715819954872
 "illegal_loss": 12 "score": 0.6566666666666666  (tau=0.001)
 "illegal_loss": 3 "score": 0.24666666666666667  (tau=1.0)
 [06:52:37] train iid_rho0.3_pi0.75 seed0 steps=1600
+EVAL {"step": 1600, "train_loss": 1.5648046731948853, "val_loss": 1.622745156288147, "elapsed": 1848.6389298439026, "acc_argmax": 0.8668394719392368, "er_argmax": 0.4747422991138706, "er_tau1": 0.4133140753828058}
+[07:23:29] eval states iid_rho0.3_pi0.75
+  expert acc=0.866 best_er=0.472 | tau=1 acc=0.795 er=0.414 | tau=0.001 acc=0.869 er=0.476 gain=+0.004 acc_bias=0.3901937007904053 acc_nonbias=0.919 | theory={'acc_tau0': 0.9054581530754968, 'acc_expert': 0.8671242234004489, 'acc_gain_tau0': 0.03833392967504798}
+"illegal_loss": 11 "score": 0.5666666666666667  (tau=0.001)
+"illegal_loss": 0 "score": 0.26  (tau=1.0)
+[07:23:54] TRAIN QUEUE DONE seed=0
+[07:23:56] train iid_rho0.3_pi0.0 seed1 steps=1600
