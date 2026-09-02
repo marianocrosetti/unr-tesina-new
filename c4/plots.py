@@ -53,7 +53,7 @@ def main():
     # Fig 2: transcendence gain at min tau vs pi (iid family), with theory line rho*(1-pi) -------
     pts = defaultdict(list); rho_seen = set()
     for tag, ds in by_tag.items():
-        m = re.match(r"iid_rho([\d.]+)_pi([\d.]+)", tag)
+        m = re.fullmatch(r"iid_rho([\d.]+)_pi([\d.]+)", tag)
         if not m:
             continue
         rho, pi = float(m.group(1)), float(m.group(2)); rho_seen.add(rho)
@@ -76,6 +76,25 @@ def main():
                 ax.set_xlabel("π = fraction of error budget that is shared"); ax.set_ylabel(name)
         axes[0].legend(fontsize=8); axes[0].set_title("τ→0 transcendence gain vs error correlation")
         fig.tight_layout(); fig.savefig(out / "fig2_gain_vs_pi.png", dpi=150); plt.close(fig)
+
+    # Fig 6: selection — reward gain at min tau vs alpha, with the predicted threshold --------------
+    sel = {t: ds for t, ds in by_tag.items() if re.fullmatch(r"sel_k\d+_a[\d.]+", t)}
+    if sel:
+        fig, ax = plt.subplots(figsize=(6.5, 4))
+        als = sorted((float(re.search(r"_a([\d.]+)", t).group(1)), t) for t in sel)
+        xs = [al for al, _ in als]
+        for j, (key, lab, mk) in enumerate([("er", "E[r] τ→0 − best expert", "o"), ("acc", "acc τ→0 − mixture acc", "s")]):
+            ys, es = [], []
+            for al, t in als:
+                v = np.array([d["taus"][str(min(float(x) for x in d["taus"]))][key] - (d["expert"]["best_er"] if key == "er" else d["expert"]["mixture_acc"]) for d in sel[t]])
+                ys.append(v.mean()); es.append(v.std())
+            ax.errorbar(xs, ys, yerr=es, marker=mk, capsize=3, label=lab)
+        thr = sel[als[0][1]][0]["theory"]["alpha_threshold"]
+        ax.axvline(thr, ls=":", color="k", label=f"predicted threshold α*={thr:.2f}")
+        ax.axhline(0, color="gray", lw=0.8)
+        ax.set_xlabel("α (routing strength: experts generate data within their expertise)"); ax.set_ylabel("gain at τ→0")
+        ax.set_title("Skill selection with fully shared errors outside expertise"); ax.legend(fontsize=8)
+        fig.tight_layout(); fig.savefig(out / "fig6_selection_alpha.png", dpi=150); plt.close(fig)
 
     # Fig 3: accuracy on bias vs non-bias states at min tau ----------------------------------------
     fig, ax = plt.subplots(figsize=(7, 4))

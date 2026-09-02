@@ -24,6 +24,12 @@ All experts know the exact solver. Errors are injected in one of three modes:
       Mixture mass on the optimal move = alpha + (1-alpha)/K, on the shared wrong move =
       (1-alpha)(K-1)/K, so the tau->0 imitator transcends iff alpha > (K-2)/(2K-2)  (K=4: 1/3).
 
+  rule           (learnable shared bias). On every ply with ply % rule_mod == 0 all experts play the
+      leftmost legal column (an error whenever it is not optimal). Elsewhere: iid random error
+      with prob rho. Unlike the hash-based bias states of `iid`, this bias is a simple function
+      of the move sequence, so a finite model *can* learn it. Prediction: tau->0 reproduces the
+      rule exactly (acc on rule plies = P(leftmost legal is optimal)) and denoises the rest.
+
   blind          (shared bias localised in the opening). Every expert is optimal except
       that it never plays the centre column during the first `blind_plies` plies.
       Optional extra iid noise `rho`.
@@ -51,12 +57,13 @@ def hash01(key: str, seed: int) -> float:
 
 @dataclass
 class ExpertConfig:
-    mode: str = "iid"          # iid | complementary | selection | blind
+    mode: str = "iid"          # iid | complementary | selection | rule | blind
     rho: float = 0.3           # total error rate per visited state (iid / blind extra noise)
     pi: float = 0.0            # fraction of error budget that is shared (iid only)
     k: int = 4                 # number of experts (complementary / selection)
     alpha: float = 0.0         # routing strength (selection only)
     blind_plies: int = 4       # (blind only)
+    rule_mod: int = 3          # (rule only) every ply divisible by rule_mod is a rule ply
     bias_seed: int = 12345     # seed of the shared hash (must be common to all experts)
 
     def to_dict(self):
@@ -76,6 +83,8 @@ class ExpertConfig:
             return f"comp_k{self.k}"
         if self.mode == "selection":
             return f"sel_k{self.k}_a{self.alpha}"
+        if self.mode == "rule":
+            return f"rule_mod{self.rule_mod}_left_rho{self.rho}"
         return f"blind_p{self.blind_plies}_rho{self.rho}"
 
 
@@ -151,6 +160,14 @@ class Experts:
                 return int(rng.choice(opt)), ERR_NONE, bool(nonopt)
             return self.shared_wrong_move(board, nonopt), ERR_SHARED, True
 
+        if cfg.mode == "rule":
+            if board.n_moves % cfg.rule_mod == 0:
+                c = legal[0]
+                return c, (ERR_SHARED if c in nonopt else ERR_NONE), True
+            if nonopt and rng.random() < cfg.rho:
+                return int(rng.choice(nonopt)), ERR_RANDOM, False
+            return int(rng.choice(opt)), ERR_NONE, False
+
         if cfg.mode == "blind":
             if board.n_moves < cfg.blind_plies:
                 cand_opt = [c for c in opt if c != W // 2]
@@ -194,6 +211,14 @@ class Experts:
                     out[i, opt] = 1.0 / len(opt)
                 else:
                     out[i, self.shared_wrong_move(board, nonopt)] = 1.0
+        elif cfg.mode == "rule":
+            if board.n_moves % cfg.rule_mod == 0:
+                out[0, legal[0]] = 1.0
+            else:
+                pr = cfg.rho if nonopt else 0.0
+                out[0, opt] = (1 - pr) / len(opt)
+                if nonopt:
+                    out[0, nonopt] = pr / len(nonopt)
         elif cfg.mode == "blind":
             if board.n_moves < cfg.blind_plies:
                 cand_opt = [c for c in opt if c != W // 2]

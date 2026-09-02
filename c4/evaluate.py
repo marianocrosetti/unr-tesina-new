@@ -116,7 +116,9 @@ def eval_states(a):
                    "mixture_er": float(mix_er.mean()), "mixture_acc": float(mix_acc.mean()),
                    "er_bias": float(exp_er[is_bias].mean()) if is_bias.any() else None,
                    "er_nonbias": float(exp_er[~is_bias].mean()),
-                   "er_by_phase": [float(exp_er[phase == k].mean()) for k in range(3)]},
+                   "er_by_phase": [float(exp_er[phase == k].mean()) for k in range(3)],
+                   "acc_bias_by_phase": [float(exp_acc[is_bias & (phase == k)].mean()) if (is_bias & (phase == k)).any() else None for k in range(3)],
+                   "n_bias_by_phase": [int((is_bias & (phase == k)).sum()) for k in range(3)]},
         "taus": {},
     }
     for tau in a.taus:
@@ -129,6 +131,8 @@ def eval_states(a):
             "acc_bias": float(acc[is_bias].mean()) if is_bias.any() else None,
             "acc_nonbias": float(acc[~is_bias].mean()),
             "er_by_phase": [float(er[phase == k].mean()) for k in range(3)],
+            "acc_bias_by_phase": [float(acc[is_bias & (phase == k)].mean()) if (is_bias & (phase == k)).any() else None for k in range(3)],
+            "acc_nonbias_by_phase": [float(acc[~is_bias & (phase == k)].mean()) if (~is_bias & (phase == k)).any() else None for k in range(3)],
             "transcends_best_expert": bool(er.mean() > exp_er.mean(0).max()),
             "gain_vs_best_expert": float(er.mean() - exp_er.mean(0).max()),
         }
