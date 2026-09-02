@@ -80,7 +80,7 @@ def eval_states(a):
 
     # Expert baselines (analytic) ---------------------------------------------
     n_exp = cfg.n_experts()
-    exp_er = np.zeros((S, n_exp)); exp_acc = np.zeros((S, n_exp))
+    exp_er = np.zeros((S, n_exp)); exp_acc = np.zeros((S, n_exp)); mix_er = np.zeros(S); mix_acc = np.zeros(S)
     for s in range(S):
         b = Board()
         for m in tokens[gi[s], 1:1 + ti[s]]:
@@ -89,7 +89,8 @@ def eval_states(a):
         dist = experts.dists(b, sc_t)                      # (n_exp,7)
         exp_er[s] = dist @ r[s]
         exp_acc[s] = (dist * opt[s]).sum(-1)
-    mix_er, mix_acc = exp_er.mean(1), exp_acc.mean(1)
+        w = experts.mixture_weights(b)                     # g(i|x) (uniform except in selection mode)
+        mix_er[s] = w @ exp_er[s]; mix_acc[s] = w @ exp_acc[s]
 
     # Realized error rates of the experts on this very test set (exact, from the generator flags)
     e = err[gi, ti]
@@ -98,6 +99,10 @@ def eval_states(a):
     # Theory (iid family): tau->0 learns the shared errors and denoises the random ones
     theory = {"acc_tau0": 1.0 - realized["shared_error_rate"], "acc_expert": 1.0 - realized["error_rate"],
               "acc_gain_tau0": realized["random_error_rate"]}
+    if cfg.mode == "selection":
+        a_, k_ = cfg.alpha, cfg.k
+        theory = {"alpha_threshold": experts.alpha_threshold(), "transcends_predicted": a_ > experts.alpha_threshold(),
+                  "mixture_mass_optimal": a_ + (1 - a_) / k_, "mixture_mass_shared_wrong": (1 - a_) * (k_ - 1) / k_}
 
     Lm = L[:, MOVE0:MOVE0 + W]
     p_full1 = softmax(L, 1.0)

@@ -51,7 +51,8 @@ def _worker(args):
             sc = solver.analyze(b.solver_key())
             t = b.n_moves
             scores[g, t] = [SCORE_INVALID if s == INVALID else s for s in sc]
-            col, e, is_bias = experts.sample_move(b, sc, rng, int(ids[b.player]))
+            mover = experts.sample_mover(b, rng) if cfg.mode == "selection" else int(ids[b.player])
+            col, e, is_bias = experts.sample_move(b, sc, rng, mover)
             err[g, t] = e
             bias[g, t] = int(is_bias)
             b.play(col)
@@ -110,14 +111,15 @@ def main():
     ap.add_argument("--n-games", type=int, default=100_000)
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--workers", type=int, default=max(1, mp.cpu_count() - 1))
-    ap.add_argument("--mode", default="iid", choices=["iid", "complementary", "blind"])
+    ap.add_argument("--mode", default="iid", choices=["iid", "complementary", "selection", "blind"])
     ap.add_argument("--rho", type=float, default=0.3)
     ap.add_argument("--pi", type=float, default=0.0)
     ap.add_argument("--k", type=int, default=4)
+    ap.add_argument("--alpha", type=float, default=0.0)
     ap.add_argument("--blind-plies", type=int, default=4)
     ap.add_argument("--bias-seed", type=int, default=12345)
     a = ap.parse_args()
-    cfg = ExpertConfig(mode=a.mode, rho=a.rho, pi=a.pi, k=a.k, blind_plies=a.blind_plies, bias_seed=a.bias_seed)
+    cfg = ExpertConfig(mode=a.mode, rho=a.rho, pi=a.pi, k=a.k, alpha=a.alpha, blind_plies=a.blind_plies, bias_seed=a.bias_seed)
     meta = generate(cfg, a.n_games, a.seed, a.workers, Path(a.out))
     print(json.dumps(meta, indent=2))
 
