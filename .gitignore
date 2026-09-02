@@ -10,3 +10,4 @@ data/
 runs/
 results/*.png
 results/**/*.pt
+third_party/connect4/
