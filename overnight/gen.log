@@ -19,3 +19,9 @@
   "seconds": 1562.8,  "mean_length": 20.6837,  "error_rate": 0.14554032885798962,  "shared_error_rate": 0.06728124078380561,
 [03:35:08] gen test blind_p4_rho0.0
 [03:36:46] gen train blind_p4_rho0.0 (80000 games)
+  "seconds": 2026.2,  "mean_length": 27.740725,  "error_rate": 0.037056529704973466,  "shared_error_rate": 0.037056529704973466,
+[04:10:33] gen test sel_k4_a0.2
+[04:11:43] gen train sel_k4_a0.2 (80000 games)
+  "seconds": 1789.2,  "mean_length": 21.5712125,  "error_rate": 0.38668897262960994,  "shared_error_rate": 0.38668897262960994,
+[04:41:35] gen test sel_k4_a0.7
+[04:42:43] gen train sel_k4_a0.7 (80000 games)

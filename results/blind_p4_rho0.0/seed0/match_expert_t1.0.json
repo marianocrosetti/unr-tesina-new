@@ -1,0 +1,21 @@
+{
+  "ckpt": "runs/blind_p4_rho0.0/seed0/final.pt",
+  "opponent": "expert",
+  "opponent_cfg": {
+    "mode": "blind",
+    "rho": 0.0,
+    "pi": 0.0,
+    "k": 4,
+    "alpha": 0.0,
+    "blind_plies": 4,
+    "rule_mod": 3,
+    "bias_seed": 12345
+  },
+  "tau": 1.0,
+  "games": 150,
+  "win": 22,
+  "draw": 6,
+  "loss": 122,
+  "illegal_loss": 1,
+  "score": 0.16666666666666666
+}

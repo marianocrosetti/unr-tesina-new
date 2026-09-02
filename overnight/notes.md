@@ -64,3 +64,18 @@
 - Model τ=1: acc 0.714, E[r] 0.378. Model τ→0: acc 0.778, E[r] 0.438 → **+0.126 vs best expert, transcends as predicted**.
 - acc on states with a wrong move: 0.597 at τ→0 (theory 1.0 if the argmax were taken on the exact mixture). With a
   0.59/0.41 margin the finite model's argmax flips often → the threshold will look smoothed, not sharp.
+
+## 04:25 — iid π=0.5, 1600 steps
+- expert acc 0.857 / E[r] 0.468. Model τ=1 acc 0.779; τ→0 acc 0.876, E[r] 0.485 → **+0.017**. Theory ceiling acc 0.935.
+- Bias (hash) states 0.430 at τ→0, non-bias 0.907.
+- H3 so far: gain at τ→0 = +0.040 (π=0), +0.017 (π=0.5), −0.017 (π=1): **monotone decreasing in π at fixed error rate**,
+  as predicted. Magnitudes are ~1/4 of the theoretical ceiling because the 6M model does not reach the argmax of the
+  mixture on unseen states (τ=1 accuracy is below the expert in every condition: the model is a flatter copy of the data).
+
+## 04:54 — blind condition (experts never play the centre in the first 4 plies, no other errors), 1600 steps
+- The original "discovery" question, now as a control. Expert acc 0.963 / E[r] 0.500 (perfect except the opening blindness).
+- Model τ→0: acc 0.917, E[r] 0.462 → −0.038 (nothing to denoise, and the model is imperfect on unseen states).
+- On the blind opening states: expert acc 0.744 (how often a non-centre move is optimal), model 0.744 — identical.
+- P(centre | empty board) = 0.0001 at τ=1 and 0.0000 at τ→0; after other first moves also ~0. The τ=1 distribution over the
+  six remaining columns is uniform (0.163–0.170) as in the data. **No discovery at all**, as Theorem 2 and the taxonomy
+  predict for a learnable, in-support, shared error with no competent expert.

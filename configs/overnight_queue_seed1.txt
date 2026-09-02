@@ -1,0 +1,9 @@
+iid_rho0.3_pi0.0|--mode iid --rho 0.3 --pi 0.0
+iid_rho0.3_pi1.0|--mode iid --rho 0.3 --pi 1.0
+sel_k4_a0.45|--mode selection --k 4 --alpha 0.45
+sel_k4_a0.2|--mode selection --k 4 --alpha 0.2
+iid_rho0.3_pi0.5|--mode iid --rho 0.3 --pi 0.5
+sel_k4_a0.7|--mode selection --k 4 --alpha 0.7
+rule_mod3_left_rho0.3|--mode rule --rule-mod 3 --rho 0.3
+sel_k4_a0.0|--mode selection --k 4 --alpha 0.0
+sel_k4_a1.0|--mode selection --k 4 --alpha 1.0

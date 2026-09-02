@@ -39,3 +39,15 @@ EVAL {"step": 1600, "train_loss": 1.634652018547058, "val_loss": 1.6393735408782
 "illegal_loss": 9 "score": 0.86  (tau=0.001)
 "illegal_loss": 0 "score": 0.6233333333333333  (tau=1.0)
 [03:56:22] train iid_rho0.3_pi0.5 seed0 steps=1600
+EVAL {"step": 1600, "train_loss": 1.648041844367981, "val_loss": 1.6590691804885864, "elapsed": 1698.1652019023895, "acc_argmax": 0.8745020526075719, "er_argmax": 0.4854797019917896, "er_tau1": 0.40419869658659996}
+[04:24:46] eval states iid_rho0.3_pi0.5
+  expert acc=0.857 best_er=0.468 | tau=1 acc=0.779 er=0.405 | tau=0.001 acc=0.876 er=0.485 gain=+0.017 acc_bias=0.429953932762146 acc_nonbias=0.907 | theory={'acc_tau0': 0.9348762632806427, 'acc_expert': 0.8592413837781809, 'acc_gain_tau0': 0.07563487950246178}
+"illegal_loss": 7 "score": 0.72  (tau=0.001)
+"illegal_loss": 0 "score": 0.2733333333333333  (tau=1.0)
+[04:25:35] train blind_p4_rho0.0 seed0 steps=1600
+EVAL {"step": 1600, "train_loss": 1.2360163927078247, "val_loss": 1.2842270135879517, "elapsed": 1709.059245109558, "acc_argmax": 0.9173038412525032, "er_argmax": 0.4629642271982523, "er_tau1": 0.4387432841638649}
+[04:54:11] eval states blind_p4_rho0.0
+  expert acc=0.963 best_er=0.500 | tau=1 acc=0.875 er=0.439 | tau=0.001 acc=0.917 er=0.462 gain=-0.038 acc_bias=0.7437499761581421 acc_nonbias=0.946 | theory={'acc_tau0': 0.9633575233260644, 'acc_expert': 0.9633575233260644, 'acc_gain_tau0': 0.0}
+"illegal_loss": 21 "score": 0.2833333333333333  (tau=0.001)
+"illegal_loss": 1 "score": 0.16666666666666666  (tau=1.0)
+[04:55:06] train sel_k4_a0.2 seed0 steps=1600
