@@ -17,7 +17,7 @@
 html,body{height:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:clamp(15px,1.45vw,22px);line-height:1.45;overflow:hidden}
 .deck{position:relative;width:100vw;height:100vh}
-.slide{position:absolute;inset:0;display:none;padding:5.5vh 7vw 9vh;box-sizing:border-box;flex-direction:column;gap:1.2em}
+.slide{position:absolute;inset:0;display:none;padding:5vh 7vw 10vh;box-sizing:border-box;flex-direction:column;gap:1.2em}
 .slide.active{display:flex}
 .eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.62em;letter-spacing:.14em;text-transform:uppercase;color:var(--board);font-weight:600}
 h1,h2{font-family:Fraunces,Georgia,serif;font-weight:600;margin:0;text-wrap:balance;line-height:1.08}
@@ -53,9 +53,9 @@ th{font-weight:600;color:var(--ink2);font-size:.9em;letter-spacing:.02em;border-
 .bars .bar{width:100%;background:var(--board);border-radius:4px 4px 0 0;transition:height .4s}
 .bars .b.hi .bar{background:var(--red)}
 .bars small{font-family:"JetBrains Mono",monospace;font-size:.7em;color:var(--ink2)}
-.footer{position:absolute;left:7vw;right:7vw;bottom:3vh;display:flex;justify-content:space-between;align-items:center;font-family:"JetBrains Mono",monospace;font-size:.62em;color:var(--muted);letter-spacing:.06em}
+.footer{position:absolute;left:7vw;right:7vw;bottom:2.2vh;display:flex;justify-content:space-between;align-items:center;gap:1.5em;font-family:"JetBrains Mono",monospace;font-size:.62em;color:var(--muted);letter-spacing:.06em}
 .progress{position:absolute;left:0;bottom:0;height:3px;background:var(--board);width:0;transition:width .3s}
-.nav{position:absolute;right:7vw;bottom:7vh;display:flex;gap:.4em}
+.nav{display:flex;gap:.4em}
 .nav button{background:var(--paper2);border:1px solid var(--line);color:var(--ink);width:2.2em;height:2.2em;border-radius:6px;cursor:pointer;font-size:1em}
 .nav button:focus-visible{outline:2px solid var(--board);outline-offset:2px}
 svg.board{width:100%;max-width:26em}
@@ -433,8 +433,7 @@ svg.board{width:100%;max-width:26em}
   </div>
 </section>
 
-<div class="nav"><button id="prev" aria-label="Anterior">←</button><button id="next" aria-label="Siguiente">→</button></div>
-<div class="footer"><span>Cuando imitar supera al maestro</span><span id="counter"></span></div>
+<div class="footer"><span>Cuando imitar supera al maestro</span><span style="display:flex;align-items:center;gap:1.2em"><span id="counter"></span><span class="nav"><button id="prev" aria-label="Anterior">←</button><button id="next" aria-label="Siguiente">→</button></span></span></div>
 <div class="progress" id="progress"></div>
 </div>
 
