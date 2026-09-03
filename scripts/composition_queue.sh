@@ -13,9 +13,13 @@ QS=${QS:-"0.0 0.25 0.5 1.0"}; N=${N:-8}; SEEDS=${SEEDS:-"0 1 2"}; N_GAMES=${N_GA
 TAUS="0.001 0.1 0.3 1.0"
 [ -f data/perfect_test.npz ] || OMP_NUM_THREADS=1 $PY -m c4.generate --out data/perfect_test --n-games 3000 --seed 2 --workers $WORKERS --mode iid --rho 0.0 > overnight/gen_perfect_test.json 2>/dev/null
 for Q in $QS; do
-  TAG=comp_q${Q}_n${N}_fa0.5
-  [ -f data/${TAG}.npz ]      || { echo "[$(date +%H:%M:%S)] gen $TAG"; OMP_NUM_THREADS=1 $PY -m c4.generate --out data/${TAG} --n-games $N_GAMES --seed 1 --workers $WORKERS --mode composition --q-open $Q --n-open $N --frac-a 0.5 > overnight/gen_${TAG}.json 2>/dev/null; }
-  [ -f data/${TAG}_test.npz ] || OMP_NUM_THREADS=1 $PY -m c4.generate --out data/${TAG}_test --n-games 3000 --seed 2 --workers $WORKERS --mode composition --q-open $Q --n-open $N --frac-a 0.5 > overnight/gen_${TAG}_test.json 2>/dev/null
+  # entries: a number = random-style opening of quality q ; a word (nocenter|edges) = structured opening style
+  case $Q in
+    [0-9]*) TAG=comp_q${Q}_n${N}_fa0.5; GARGS="--mode composition --q-open $Q --n-open $N --frac-a 0.5" ;;
+    *)      TAG=comp_${Q}_n${N}_fa0.5;  GARGS="--mode composition --b-open $Q --n-open $N --frac-a 0.5" ;;
+  esac
+  [ -f data/${TAG}.npz ]      || { echo "[$(date +%H:%M:%S)] gen $TAG"; OMP_NUM_THREADS=1 $PY -m c4.generate --out data/${TAG} --n-games $N_GAMES --seed 1 --workers $WORKERS $GARGS > overnight/gen_${TAG}.json 2>/dev/null; }
+  [ -f data/${TAG}_test.npz ] || OMP_NUM_THREADS=1 $PY -m c4.generate --out data/${TAG}_test --n-games 3000 --seed 2 --workers $WORKERS $GARGS > overnight/gen_${TAG}_test.json 2>/dev/null
   for S in $SEEDS; do
     RUN=runs/${TAG}/seed${S}; RES=results/${TAG}/seed${S}
     [ -f $RUN/final.pt ] || { echo "[$(date +%H:%M:%S)] train $TAG seed$S"; $PY -m c4.train --data data/${TAG}.npz --out $RUN --seed $S --steps $STEPS --eval-every 400 --ckpt-every 0 --warmup 100 > overnight/train_${TAG}_s${S}.log 2>&1; }

@@ -128,10 +128,11 @@ def main():
     ap.add_argument("--q-open", type=float, default=1.0)
     ap.add_argument("--n-open", type=int, default=8)
     ap.add_argument("--frac-a", type=float, default=0.5)
+    ap.add_argument("--b-open", default="random", choices=["random", "nocenter", "edges"])
     ap.add_argument("--blind-plies", type=int, default=4)
     ap.add_argument("--bias-seed", type=int, default=12345)
     a = ap.parse_args()
-    cfg = ExpertConfig(mode=a.mode, rho=a.rho, pi=a.pi, k=a.k, alpha=a.alpha, rule_mod=a.rule_mod, q_open=a.q_open, n_open=a.n_open, frac_a=a.frac_a, blind_plies=a.blind_plies, bias_seed=a.bias_seed)
+    cfg = ExpertConfig(mode=a.mode, rho=a.rho, pi=a.pi, k=a.k, alpha=a.alpha, rule_mod=a.rule_mod, q_open=a.q_open, n_open=a.n_open, frac_a=a.frac_a, b_open=a.b_open, blind_plies=a.blind_plies, bias_seed=a.bias_seed)
     meta = generate(cfg, a.n_games, a.seed, a.workers, Path(a.out))
     print(json.dumps(meta, indent=2))
 

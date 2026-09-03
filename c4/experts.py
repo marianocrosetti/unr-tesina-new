@@ -77,6 +77,7 @@ class ExpertConfig:
     q_open: float = 1.0        # (composition) opening quality of family B
     n_open: int = 8            # (composition) plies of the opening / truncation point of family A
     frac_a: float = 0.5        # (composition) fraction of games played by family A
+    b_open: str = "random"     # (composition) B's opening style: random (quality q_open) | nocenter | edges
     bias_seed: int = 12345     # seed of the shared hash (must be common to all experts)
 
     def to_dict(self):
@@ -99,6 +100,8 @@ class ExpertConfig:
         if self.mode == "rule":
             return f"rule_mod{self.rule_mod}_left_rho{self.rho}"
         if self.mode == "composition":
+            if self.b_open != "random":
+                return f"comp_{self.b_open}_n{self.n_open}_fa{self.frac_a}"
             return f"comp_q{self.q_open}_n{self.n_open}_fa{self.frac_a}"
         return f"blind_p{self.blind_plies}_rho{self.rho}"
 
@@ -131,6 +134,15 @@ class Experts:
 
     def region(self, board: Board) -> int:
         return min(int(hash01(board.board_key(), self.cfg.bias_seed + 2) * self.cfg.k), self.cfg.k - 1)
+
+    def _b_opening_set(self, legal: list[int]):
+        """Restricted column set for family B's structured opening styles; None for the random style."""
+        st = self.cfg.b_open
+        if st == "random":
+            return None
+        allowed = {"nocenter": [0, 1, 2, 4, 5, 6], "edges": [0, 1, 5, 6]}[st]
+        cand = [c for c in legal if c in allowed]
+        return cand or legal
 
     def alpha_threshold(self) -> float:
         k = self.cfg.k
@@ -185,9 +197,14 @@ class Experts:
 
         if cfg.mode == "composition":
             # expert_id: 0 = family A, 1 = family B
-            if expert_id == 1 and board.n_moves < cfg.n_open and rng.random() >= cfg.q_open:
-                c = int(rng.choice(legal))
-                return c, (ERR_RANDOM if c in nonopt else ERR_NONE), True
+            if expert_id == 1 and board.n_moves < cfg.n_open:
+                cand = self._b_opening_set(legal)
+                if cand is not None:                       # structured style: uniform over the restricted set
+                    c = int(rng.choice(cand))
+                    return c, (ERR_RANDOM if c in nonopt else ERR_NONE), True
+                if rng.random() >= cfg.q_open:             # random style: quality q
+                    c = int(rng.choice(legal))
+                    return c, (ERR_RANDOM if c in nonopt else ERR_NONE), True
             return int(rng.choice(opt)), ERR_NONE, board.n_moves < cfg.n_open
 
         if cfg.mode == "blind":
@@ -244,8 +261,12 @@ class Experts:
         elif cfg.mode == "composition":
             # analytic baseline = family B's policy (the only family defined on the whole game)
             if board.n_moves < cfg.n_open:
-                out[0, opt] += cfg.q_open / len(opt)
-                out[0, legal] += (1 - cfg.q_open) / len(legal)
+                cand = self._b_opening_set(legal)
+                if cand is not None:
+                    out[0, cand] = 1.0 / len(cand)
+                else:
+                    out[0, opt] += cfg.q_open / len(opt)
+                    out[0, legal] += (1 - cfg.q_open) / len(legal)
             else:
                 out[0, opt] = 1.0 / len(opt)
         elif cfg.mode == "blind":

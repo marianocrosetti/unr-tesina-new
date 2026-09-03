@@ -127,3 +127,39 @@ Resume later with:  OMP_NUM_THREADS=2 SEED=1 QUEUE=configs/overnight_queue_seed1
   seed AND --workers, since chunking depends on the worker count).
 - GPU queue = scripts/gpu_queue.sh (phase A: seeds 1-2 for all 13 conditions; phase B: scaling study on pi=0, pi=1, rule with
   80k vs 320k games × 1600/6400/25600 steps). Armed by scripts/arm_gpu_queue.sh.
+
+## Day 2 — decomposition of the pi=1 model (seen / unseen / own-play), tau->0
+- Expert-state distribution: seen 60% of states (99.9% of opening, 46% of midgame, 1.5% of late). gain on seen −0.004,
+  on unseen −0.036 (mid −0.029, late −0.047). The hash bias is reproduced on seen states and the model is simply worse than
+  the expert on unseen states. No transcendence anywhere in the expert distribution.
+- Own-play vs the expert bot (300 games): match score 0.587 (0.613 earlier with 150) — yet per-move E[r] on the model's own
+  states is BELOW the expert's counterfactual E[r] at the same states (all −0.013; late −0.078). So the head-to-head win is
+  NOT per-move superiority on its own trajectories. It must come from the interaction / timing of errors: the expert's hash
+  errors are spread over all phases (early blunders leave the opponent many moves to convert), the model's errors are
+  concentrated late. Per-state expected reward and game outcome are different objects; Zhang's Glicko metric is the latter,
+  the Taxonomy's query accuracy the former. Worth one sentence in the write-up, not a project.
+
+## Day 2 — decomposition (seen / unseen / own-play) for 4 conditions, tau->0, seed 0
+| condition | gain expert-dist: all / seen / unseen (seen frac) | ceiling−expert | own-play score vs bot | own-play gain by phase |
+| pi=0      | +0.040 / +0.091 / −0.005 (0.47) | +0.055 | 0.713 | +0.13 / +0.03 / −0.01 |
+| pi=1      | −0.017 / −0.004 / −0.036 (0.60) | 0.000  | 0.587 | −0.00 / −0.01 / −0.08 |
+| rule      | +0.019 / +0.055 / −0.028 (0.57) | +0.050 | 0.550 | +0.08 / −0.02 / −0.05 |
+| sel a=.45 | +0.009 / +0.012 / +0.005 (0.50) | (baseline = routed mixture) | 0.840 | −0.09 / +0.03 / −0.01 |
+- **The whole denoising gain of pi=0 comes from SEEN states** (+0.091); on unseen states the imitator is at expert level (−0.005).
+  Majority vote needs per-state votes: where a position recurs in training the imitator estimates the mixture and its argmax
+  transcends; where it does not, generalization only reaches expert level. This is the sharp form of "the imitator captures
+  ¼ of the theoretical ceiling": the ceiling is reached on seen states and not at all on unseen ones.
+- Head-to-head scores do not track per-move gain on own trajectories (pi=1: 0.587 with negative per-move gain). Per-state
+  E[r] and game outcome are different objects; timing of errors matters.
+
+## Day 2 — composition with disjoint support, N=8, frac_A=0.5, 3 seeds (RunPod)
+Family A: optimal opening, truncated at ply 8. Family B: opening of quality q, optimal afterwards.
+| q | in-support endgame acc (mid/late) | endgame acc after OPTIMAL openings (never seen) | own-play vs perfect: acc mid/late | seen frac mid |
+| 0.0 (random openings) | 0.883 / 0.875 | **0.940 / 0.924** | 0.946 / 0.943 | 0.14 |
+| 1.0 (control)         | 0.950 / 0.925 | 0.950 / 0.926 | 0.958 / 0.918 | 0.24 |
+- **Flat in q.** The imitator plays the endgame after optimal openings as well as the control, although no transcript ever
+  showed an endgame following an optimal opening. Endgame skill transfers across the demonstrator support gap → the
+  optimist camp (Mészáros et al.) wins, the pessimist (taxonomy two-hop, DT stitching) loses, in this domain.
+- Design weakness: random openings (q=0) do not create a support GAP, they create broad coverage — random openings visit
+  central boards too. The proper disjoint-support test needs B's openings confined to a region that excludes A's
+  continuations (e.g. B never plays central columns early; edges only). Adding styles `nocenter` and `edges`.
