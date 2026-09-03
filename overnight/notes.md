@@ -187,3 +187,7 @@ transfers to central boards at 0.92 vs 0.95. Seen fraction of midgame states in 
   decompositions, small/mid model and 20k-game variants) sit on the pod's /workspace volume, not yet pulled.
 - Locally: q-sweep (4 q × 3 seeds) + 4 decompositions. Structured styles (nocenter ×3, edges ×3) captured from the log only.
 - To recover: add ~2 USD, start the pod, rsync results/ + overnight/, then terminate the pod (volume no longer needed).
+
+## Day 2 — all night queues completed 05:50 UTC; pod idled until the balance ran out at 11:30 UTC. Results pulled 10:50 local.
+See NARRATIVE.md "Día 2" for the tables: composition controls (A-only, B-only), N=14, small/mid models, 20k games,
+data-size law with seen/unseen split. Pod stopped (EXITED) at 10:52 local; storage still billed until terminated.

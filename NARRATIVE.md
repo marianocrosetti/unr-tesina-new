@@ -80,6 +80,65 @@ que encontramos en la literatura es la composición de habilidades entre demostr
 Zhang et al. nombran explícitamente): expertos A óptimos hasta la jugada N con partidas truncadas, expertos B con apertura
 de calidad q y final óptimo, medir la calidad del final del imitador en sus propias trayectorias en función de q.
 
+## Día 2 (2-3 sep): descomposición, composición con soporte disjunto, ley de datos
+
+### Dónde ocurre la transcendencia: solo en estados vistos, hasta que hay datos de sobra
+
+Descomposición de la ganancia a τ→0 de π=0 según si la posición aparece en el entrenamiento (3 semillas por fila salvo 320k):
+
+| Datos | epochs | ganancia total | en estados vistos | en estados no vistos | fracción vista | techo teórico (argmax de la mezcla) |
+|---|---|---|---|---|---|---|
+| 20k | 10 | −0.031 | +0.060 | **−0.093** | 0.41 | +0.055 |
+| 80k | 10 | +0.040 | +0.092 | −0.006 | 0.47 | +0.055 |
+| 320k | 2.6 | +0.035 | +0.070 | −0.004 | 0.53 | +0.055 |
+| 320k | 10 | +0.062 | +0.090 | **+0.030** | 0.53 | +0.055 |
+
+En estados vistos el voto por mayoría llega al techo desde 20k partidas. En estados no vistos el imitador pasa de ser peor
+que el experto (20k) a igualarlo (80k) a superarlo (320k). La ganancia total es la mezcla ponderada de las dos. Es la forma
+cuantitativa de "el imitador captura ¼ del techo": el techo se alcanza donde hay votos y la generalización recién empieza
+a aportar con 4× datos. La misma descomposición en π=1 muestra que el partido cabeza a cabeza (0.59) no se explica por
+ventaja por jugada en las propias trayectorias (−0.013): resultado de partida y recompensa por estado son objetos distintos.
+
+### Composición de habilidades entre demostradores con soporte disjunto (la brecha que nombra Zhang et al.)
+
+Familia A: apertura óptima, transcripción truncada en la jugada N (nunca muestra finales). Familia B: apertura de calidad q
+o de estilo restringido (sin columnas centrales; solo columnas de borde), final óptimo. Ningún transcript muestra un final
+después de una apertura óptima. Métrica: P(jugada óptima) a τ→0 en finales alcanzados desde aperturas óptimas (soporte no
+visto), y juego propio del imitador contra un oponente perfecto. 3 semillas por celda, desvíos ≤ 0.005.
+
+| Condición (N=8, 50 % A) | acc final tras aperturas ÓPTIMAS, medio / tardío | Δ vs control | juego propio: acc apertura / medio / tardío | score vs perfecto |
+|---|---|---|---|---|
+| control q=1 | 0.950 / 0.926 | — | 0.999 / 0.958 / 0.918 | 0.402 |
+| B apertura aleatoria | 0.940 / 0.924 | −0.010 / −0.002 | 0.995 / 0.946 / 0.943 | 0.371 |
+| B sin centro | 0.926 / 0.920 | −0.024 / −0.006 | 0.997 / 0.936 / 0.951 | 0.349 |
+| B solo bordes | 0.925 / 0.916 | −0.025 / −0.010 | 0.999 / 0.953 / 0.958 | 0.342 |
+| **solo A** (sin ningún final) | 0.868 / 0.680 | −0.082 / −0.246 | 0.997 / 0.835 / 0.779 | 0.193 |
+| **solo B** (bordes, sin A) | 0.919 / 0.924 | −0.031 / −0.002 | 0.873 / 0.983 / 0.971 | 0.000 |
+| bordes, N=14 | 0.945 / 0.910 (control 0.961 / 0.923) | −0.016 / −0.013 | 0.999 / 0.971 / 0.891 | 0.407 |
+| bordes, modelo 0.1M | 0.918 / 0.904 (control 0.927 / 0.891) | −0.009 / +0.013 | 0.988 / 0.946 / 0.944 | 0.236 |
+| bordes, modelo 0.8M | 0.924 / 0.905 (control 0.941 / 0.917) | −0.017 / −0.012 | 0.995 / 0.924 / 0.933 | 0.282 |
+| bordes, 20k partidas | 0.890 / 0.855 (control 0.904 / 0.850) | −0.014 / +0.005 | 0.996 / 0.904 / 0.907 | 0.204 |
+
+Lectura:
+- **Transfiere, con un costo chico y graduado** (≤ 0.03 en el mediojuego) que crece con la severidad del desplazamiento y
+  no depende de la capacidad del modelo, del tamaño de datos ni de N. No hay acantilado en ninguna celda. Gana el bando
+  optimista (Mészáros et al.) contra el pesimista (two-hop de la taxonomía, stitching en Decision Transformers).
+- **Solo B ya transfiere igual** (0.919 vs 0.925): los datos de A no aportan nada al final. Lo que A aporta es la apertura:
+  solo-B juega aperturas de borde (acc 0.87) y pierde todas las partidas contra el oponente perfecto; solo-A no sabe jugar
+  finales (0.68 tardío). **A+B gana ~70 % de sus partidas como primer jugador contra un oponente perfecto**, algo que ninguna
+  de las dos poblaciones de demostradores puede hacer. Eso es composición de habilidades en el juego propio, medida exacta.
+- Curiosidad: solo-A, sin haber visto jamás una jugada más allá de la 8, acierta 0.87 en el mediojuego. Extrapola la
+  estructura de la apertura óptima bastante más allá de su soporte antes de colapsar en el final.
+
+### Veredicto del día 2
+
+La pregunta abierta que quedaba (¿compone habilidades de demostradores con soporte disjunto?) tiene respuesta clara en este
+dominio: sí, con penalidad pequeña, graduada e insensible a capacidad y datos. Es un resultado limpio a favor de la lectura
+"la política aprendida es función local del tablero", pero en Connect 4 la conclusión era la que un optimista esperaba, así
+que vale como el contenido empírico que le faltaba al modo *skill generalization*, no como sorpresa. La descomposición
+visto/no visto es el hallazgo más útil para leer el paper original: la transcendencia por voto vive en los estados
+repetidos y la generalización recién la extiende con datos abundantes.
+
 ## Lo que esto dice de los dos papers
 
 - El mecanismo de Zhang et al. se reproduce en un dominio secuencial con recompensa exacta, y la condición de diversidad que

@@ -119,3 +119,22 @@ Resume later with:  OMP_NUM_THREADS=2 SEED=1 QUEUE=configs/overnight_queue_seed1
 (all data already generated; the script skips finished runs).
 
 ## 10:48 — RunPod pod created: id vwd3mssu0ihgsl, RTX 4090 secure ($0.74/h), image runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404, 40GB /workspace volume, SSH key injected.
+
+## RunPod notes
+- Pod vwd3mssu0ihgsl (RTX 4090 secure, 0.74 USD/h): `nproc` reports 96 but the cgroup quota is 10.2 CPUs
+  (cpu.cfs_quota_us=1020000). Data generation must use ~10 workers, not 80. Training: 0.065 s/step (1600 steps ≈ 1.7 min).
+- Upload Mac → pod ≈ 200 KB/s: 438 MB of datasets take ~50 min. Next time regenerate on the pod instead (deterministic given
+  seed AND --workers, since chunking depends on the worker count).
+- GPU queue = scripts/gpu_queue.sh (phase A: seeds 1-2 for all 13 conditions; phase B: scaling study on pi=0, pi=1, rule with
+  80k vs 320k games × 1600/6400/25600 steps). Armed by scripts/arm_gpu_queue.sh.
+
+## Day 2 — decomposition of the pi=1 model (seen / unseen / own-play), tau->0
+- Expert-state distribution: seen 60% of states (99.9% of opening, 46% of midgame, 1.5% of late). gain on seen −0.004,
+  on unseen −0.036 (mid −0.029, late −0.047). The hash bias is reproduced on seen states and the model is simply worse than
+  the expert on unseen states. No transcendence anywhere in the expert distribution.
+- Own-play vs the expert bot (300 games): match score 0.587 (0.613 earlier with 150) — yet per-move E[r] on the model's own
+  states is BELOW the expert's counterfactual E[r] at the same states (all −0.013; late −0.078). So the head-to-head win is
+  NOT per-move superiority on its own trajectories. It must come from the interaction / timing of errors: the expert's hash
+  errors are spread over all phases (early blunders leave the opponent many moves to convert), the model's errors are
+  concentrated late. Per-state expected reward and game outcome are different objects; Zhang's Glicko metric is the latter,
+  the Taxonomy's query accuracy the former. Worth one sentence in the write-up, not a project.

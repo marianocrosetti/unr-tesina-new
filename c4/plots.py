@@ -137,12 +137,13 @@ def main():
                 if not sp.exists():
                     continue
                 A = json.loads(p.read_text())["taus"]["0.001"]; B = json.loads(sp.read_text())["taus"]["0.001"]
-                a_mid.append(np.mean(A["acc_nonbias_by_phase"][1:])); b_mid.append(np.mean(B["acc_nonbias_by_phase"][1:]))
+                av = [x for x in A["acc_nonbias_by_phase"][1:] if x is not None]
+                a_mid.append(np.mean(av) if av else np.nan); b_mid.append(np.mean(B["acc_nonbias_by_phase"][1:]))
                 if dp.exists():
                     O = json.loads(dp.read_text())["own_play"]["0.001"]; o_mid.append(np.mean([x["acc"] for x in O["by_phase"][1:]]))
             if not a_mid:
                 continue
-            labels.append(tag.replace("_fa0.5", "").replace("comp_", "")); ins.append(np.mean(a_mid)); outs.append(np.mean(b_mid)); own.append(np.mean(o_mid) if o_mid else np.nan)
+            labels.append(tag.replace("comp_", "")); ins.append(np.nanmean(a_mid) if not all(np.isnan(a_mid)) else 0); outs.append(np.mean(b_mid)); own.append(np.mean(o_mid) if o_mid else np.nan)
         if labels:
             x = np.arange(len(labels)); w = 0.27
             ax.bar(x - w, ins, w, label="in-support endgames (B's own openings)")

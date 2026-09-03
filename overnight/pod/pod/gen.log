@@ -1,0 +1,38 @@
+[23:37:44] gen test iid_rho0.3_pi0.0
+[23:38:23] gen train iid_rho0.3_pi0.0 (80000 games)
+  "seconds": 1111.2,  "mean_length": 20.7076125,  "error_rate": 0.15494724464251974,  "shared_error_rate": 0.0,
+[23:56:55] gen test iid_rho0.3_pi1.0
+[23:58:49] gen train iid_rho0.3_pi1.0 (80000 games)
+  "seconds": 1802.7,  "mean_length": 20.2454625,  "error_rate": 0.13152329812173963,  "shared_error_rate": 0.13152329812173963,
+[00:28:57] gen test sel_k4_a0.0
+[00:30:01] gen train sel_k4_a0.0 (80000 games)
+[01:14:25] gen test sel_k4_a1.0
+[01:15:32] gen train sel_k4_a1.0 (80000 games)
+[01:44:22] gen test rule_mod3_left_rho0.3
+[01:46:01] gen train rule_mod3_left_rho0.3 (80000 games)
+  "seconds": 2841.9,  "mean_length": 23.9433875,  "error_rate": 0.27188456520615556,  "shared_error_rate": 0.16919441745659422,
+[02:33:25] gen test sel_k4_a0.45
+[02:35:09] gen train sel_k4_a0.45 (80000 games)
+  "seconds": 1979.1,  "mean_length": 20.977825,  "error_rate": 0.23019307292343225,  "shared_error_rate": 0.23019307292343225,
+[03:08:10] gen test iid_rho0.3_pi0.5
+[03:09:04] gen train iid_rho0.3_pi0.5 (80000 games)
+  "seconds": 1562.8,  "mean_length": 20.6837,  "error_rate": 0.14554032885798962,  "shared_error_rate": 0.06728124078380561,
+[03:35:08] gen test blind_p4_rho0.0
+[03:36:46] gen train blind_p4_rho0.0 (80000 games)
+  "seconds": 2026.2,  "mean_length": 27.740725,  "error_rate": 0.037056529704973466,  "shared_error_rate": 0.037056529704973466,
+[04:10:33] gen test sel_k4_a0.2
+[04:11:43] gen train sel_k4_a0.2 (80000 games)
+  "seconds": 1789.2,  "mean_length": 21.5712125,  "error_rate": 0.38668897262960994,  "shared_error_rate": 0.38668897262960994,
+[04:41:35] gen test sel_k4_a0.7
+[04:42:43] gen train sel_k4_a0.7 (80000 games)
+  "seconds": 1720.8,  "mean_length": 20.76875,  "error_rate": 0.10883238037917545,  "shared_error_rate": 0.10883238037917545,
+[05:11:25] gen test comp_k4
+[05:12:21] gen train comp_k4 (80000 games)
+  "seconds": 1577.6,  "mean_length": 20.2120125,  "error_rate": 0.2752002058181985,  "shared_error_rate": 0.0,
+[05:38:41] gen test iid_rho0.3_pi0.25
+[05:39:50] gen train iid_rho0.3_pi0.25 (80000 games)
+  "seconds": 1753.0,  "mean_length": 20.701975,  "error_rate": 0.15554071531822447,  "shared_error_rate": 0.03939298062141414,
+[06:09:04] gen test iid_rho0.3_pi0.75
+[06:10:14] gen train iid_rho0.3_pi0.75 (80000 games)
+  "seconds": 1548.8,  "mean_length": 20.618425,  "error_rate": 0.13539164606413923,  "shared_error_rate": 0.09583479339474281,
+[06:36:05] GEN QUEUE DONE

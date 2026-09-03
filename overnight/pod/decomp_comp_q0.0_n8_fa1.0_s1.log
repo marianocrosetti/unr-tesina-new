@@ -1,0 +1,68 @@
+indexing training positions ...
+  25573 distinct training positions
+/workspace/chess/c4/decompose.py:101: RuntimeWarning: Mean of empty slice.
+  "seen_frac_by_phase": [float(is_seen[phase == k].mean()) for k in range(3)],
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:147: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+{
+ "all": {
+  "n": 23860,
+  "expert_er": 0.26618668422943353,
+  "mixture_argmax_er": 0.176802179379715,
+  "model_er_tau0.001": 0.501342844257025,
+  "gain_tau0.001": 0.2351561600275915,
+  "acc_tau0.001": 0.9976961016654968,
+  "model_er_tau1.0": 0.4971723792197831,
+  "gain_tau1.0": 0.23098569499034954,
+  "acc_tau1.0": 0.992388129234314
+ },
+ "seen": {
+  "n": 23847,
+  "expert_er": 0.2663317937566271,
+  "mixture_argmax_er": 0.17689856166394097,
+  "model_er_tau0.001": 0.5016161472710453,
+  "gain_tau0.001": 0.23528435351441823,
+  "acc_tau0.001": 0.9976948499679565,
+  "model_er_tau1.0": 0.49744340873837484,
+  "gain_tau1.0": 0.23111161498174776,
+  "acc_tau1.0": 0.9923838973045349
+ },
+ "unseen": {
+  "n": 13,
+  "expert_er": 0.0,
+  "mixture_argmax_er": 0.0,
+  "model_er_tau0.001": 0.0,
+  "gain_tau0.001": 0.0,
+  "acc_tau0.001": 1.0,
+  "model_er_tau1.0": 0.0,
+  "gain_tau1.0": 0.0,
+  "acc_tau1.0": 1.0
+ },
+ "seen_frac_by_phase": [
+  0.9994551550712489,
+  NaN,
+  NaN
+ ],
+ "unseen_by_phase": [
+  {
+   "n": 13,
+   "expert_er": 0.0,
+   "mixture_argmax_er": 0.0,
+   "model_er_tau0.001": 0.0,
+   "gain_tau0.001": 0.0,
+   "acc_tau0.001": 1.0,
+   "model_er_tau1.0": 0.0,
+   "gain_tau1.0": 0.0,
+   "acc_tau1.0": 1.0
+  },
+  {
+   "n": 0
+  },
+  {
+   "n": 0
+  }
+ ]
+}
+own-play tau=0.001: {"win": 49, "draw": 0, "loss": 251, "illegal": 98} score=0.163
+own-play tau=1.0: {"win": 58, "draw": 0, "loss": 242, "illegal": 10} score=0.193
+wrote results/comp_q0.0_n8_fa1.0/seed1/decompose.json

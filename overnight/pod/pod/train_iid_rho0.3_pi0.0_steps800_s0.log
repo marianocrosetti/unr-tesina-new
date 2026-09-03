@@ -1,0 +1,23 @@
+device=mps params=6.33M train_games=78400 steps=800 tokens/epoch=3.4M
+step 1/800 loss 2.4821 lr 6.00e-06 6s
+step 50/800 loss 1.9723 lr 3.00e-04 92s
+step 100/800 loss 1.9311 lr 6.00e-04 169s
+step 150/800 loss 1.9090 lr 5.93e-04 250s
+step 200/800 loss 1.8862 lr 5.73e-04 336s
+EVAL {"step": 200, "train_loss": 1.886234164237976, "val_loss": 1.8842014074325562, "elapsed": 341.72270798683167, "acc_argmax": 0.8403305384871508, "er_argmax": 0.4575173290553016, "er_tau1": 0.36570111172038}
+step 250/800 loss 1.8739 lr 5.41e-04 427s
+step 300/800 loss 1.8508 lr 4.98e-04 506s
+step 350/800 loss 1.8380 lr 4.47e-04 594s
+step 400/800 loss 1.8352 lr 3.90e-04 679s
+EVAL {"step": 400, "train_loss": 1.8351963758468628, "val_loss": 1.8244380950927734, "elapsed": 696.7628221511841, "acc_argmax": 0.8425704513121651, "er_argmax": 0.46057450737052397, "er_tau1": 0.3722887628728928}
+step 450/800 loss 1.8189 lr 3.30e-04 776s
+step 500/800 loss 1.8007 lr 2.70e-04 856s
+step 550/800 loss 1.8068 lr 2.13e-04 996s
+step 600/800 loss 1.8015 lr 1.62e-04 1075s
+EVAL {"step": 600, "train_loss": 1.8014816045761108, "val_loss": 1.8000848293304443, "elapsed": 1094.1869449615479, "acc_argmax": 0.8540121681750764, "er_argmax": 0.4708659987286981, "er_tau1": 0.3770496550288113}
+step 650/800 loss 1.7950 lr 1.19e-04 1182s
+step 700/800 loss 1.7931 lr 8.67e-05 1264s
+step 750/800 loss 1.7935 lr 6.68e-05 1340s
+step 800/800 loss 1.7866 lr 6.00e-05 1417s
+EVAL {"step": 800, "train_loss": 1.7866132259368896, "val_loss": 1.787096381187439, "elapsed": 1434.4436841011047, "acc_argmax": 0.8649090413778491, "er_argmax": 0.47846354087840903, "er_tau1": 0.38137357311369124}
+done runs/iid_rho0.3_pi0.0/seed0

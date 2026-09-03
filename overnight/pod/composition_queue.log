@@ -1,0 +1,29 @@
+[01:58:30] gen comp_q0.0_n8_fa0.5
+[02:02:08] train comp_q0.0_n8_fa0.5 seed0
+  comp_q0.0_n8_fa0.5 seed0 | in-support endgame acc (ply>=8): mid=0.880 late=0.876 | optimal-opening endgame acc: mid=0.942 late=0.925 | own-play vs perfect: score=0.393 acc by phase=[0.997, 0.953, 0.955] seen frac=[1.0, 0.14, 0.0]
+[02:05:16] train comp_q0.0_n8_fa0.5 seed1
+  comp_q0.0_n8_fa0.5 seed1 | in-support endgame acc (ply>=8): mid=0.885 late=0.874 | optimal-opening endgame acc: mid=0.940 late=0.923 | own-play vs perfect: score=0.368 acc by phase=[0.996, 0.939, 0.961] seen frac=[1.0, 0.14, 0.0]
+[02:08:19] train comp_q0.0_n8_fa0.5 seed2
+  comp_q0.0_n8_fa0.5 seed2 | in-support endgame acc (ply>=8): mid=0.883 late=0.874 | optimal-opening endgame acc: mid=0.939 late=0.925 | own-play vs perfect: score=0.350 acc by phase=[0.992, 0.946, 0.913] seen frac=[1.0, 0.14, 0.0]
+[02:11:24] gen comp_q1.0_n8_fa0.5
+[02:13:35] train comp_q1.0_n8_fa0.5 seed0
+  comp_q1.0_n8_fa0.5 seed0 | in-support endgame acc (ply>=8): mid=0.951 late=0.929 | optimal-opening endgame acc: mid=0.951 late=0.928 | own-play vs perfect: score=0.403 acc by phase=[0.998, 0.954, 0.919] seen frac=[1.0, 0.2, 0.0]
+[02:16:36] train comp_q1.0_n8_fa0.5 seed1
+  comp_q1.0_n8_fa0.5 seed1 | in-support endgame acc (ply>=8): mid=0.949 late=0.919 | optimal-opening endgame acc: mid=0.947 late=0.924 | own-play vs perfect: score=0.393 acc by phase=[0.999, 0.953, 0.918] seen frac=[1.0, 0.23, 0.0]
+[02:19:40] train comp_q1.0_n8_fa0.5 seed2
+  comp_q1.0_n8_fa0.5 seed2 | in-support endgame acc (ply>=8): mid=0.950 late=0.927 | optimal-opening endgame acc: mid=0.951 late=0.926 | own-play vs perfect: score=0.410 acc by phase=[0.999, 0.966, 0.916] seen frac=[1.0, 0.28, 0.0]
+[02:22:41] gen comp_q0.25_n8_fa0.5
+[02:26:04] train comp_q0.25_n8_fa0.5 seed0
+  comp_q0.25_n8_fa0.5 seed0 | in-support endgame acc (ply>=8): mid=0.896 late=0.887 | optimal-opening endgame acc: mid=0.945 late=0.920 | own-play vs perfect: score=0.385 acc by phase=[0.997, 0.952, 0.969] seen frac=[1.0, 0.21, 0.0]
+[02:28:58] train comp_q0.25_n8_fa0.5 seed1
+  comp_q0.25_n8_fa0.5 seed1 | in-support endgame acc (ply>=8): mid=0.902 late=0.890 | optimal-opening endgame acc: mid=0.944 late=0.922 | own-play vs perfect: score=0.398 acc by phase=[1.0, 0.959, 0.959] seen frac=[1.0, 0.18, 0.0]
+[02:32:04] train comp_q0.25_n8_fa0.5 seed2
+  comp_q0.25_n8_fa0.5 seed2 | in-support endgame acc (ply>=8): mid=0.899 late=0.887 | optimal-opening endgame acc: mid=0.943 late=0.923 | own-play vs perfect: score=0.348 acc by phase=[0.993, 0.959, 0.966] seen frac=[1.0, 0.22, 0.0]
+[02:35:08] gen comp_q0.5_n8_fa0.5
+[02:38:30] train comp_q0.5_n8_fa0.5 seed0
+  comp_q0.5_n8_fa0.5 seed0 | in-support endgame acc (ply>=8): mid=0.905 late=0.894 | optimal-opening endgame acc: mid=0.943 late=0.923 | own-play vs perfect: score=0.395 acc by phase=[0.998, 0.965, 0.973] seen frac=[1.0, 0.22, 0.0]
+[02:41:37] train comp_q0.5_n8_fa0.5 seed1
+  comp_q0.5_n8_fa0.5 seed1 | in-support endgame acc (ply>=8): mid=0.905 late=0.896 | optimal-opening endgame acc: mid=0.947 late=0.920 | own-play vs perfect: score=0.403 acc by phase=[0.997, 0.969, 0.961] seen frac=[1.0, 0.21, 0.0]
+[02:44:45] train comp_q0.5_n8_fa0.5 seed2
+  comp_q0.5_n8_fa0.5 seed2 | in-support endgame acc (ply>=8): mid=0.901 late=0.898 | optimal-opening endgame acc: mid=0.943 late=0.923 | own-play vs perfect: score=0.397 acc by phase=[0.998, 0.953, 0.95] seen frac=[1.0, 0.28, 0.0]
+[02:47:44] COMPOSITION QUEUE DONE

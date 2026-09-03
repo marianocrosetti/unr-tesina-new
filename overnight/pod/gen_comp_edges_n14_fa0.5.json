@@ -1,0 +1,35 @@
+{
+  "expert": {
+    "mode": "composition",
+    "rho": 0.3,
+    "pi": 0.0,
+    "k": 4,
+    "alpha": 0.0,
+    "blind_plies": 4,
+    "rule_mod": 3,
+    "q_open": 1.0,
+    "n_open": 14,
+    "frac_a": 0.5,
+    "b_open": "edges",
+    "bias_seed": 12345
+  },
+  "tag": "comp_edges_n14_fa0.5",
+  "n_games": 80000,
+  "seed": 1,
+  "seconds": 442.5,
+  "n_states": 1451807,
+  "mean_length": 18.1475875,
+  "error_rate": 0.22458425947801602,
+  "shared_error_rate": 0.0,
+  "random_error_rate": 0.22458425947801602,
+  "bias_state_rate": 0.7326042648919587,
+  "error_possible_rate": 0.5349306071674816,
+  "error_rate_given_possible": 0.419838118194835,
+  "result_dist": {
+    "p1_win": 0.4719875,
+    "p2_win": 0.148,
+    "draw": 0.0237625,
+    "truncated": 0.35625
+  },
+  "family_a_frac": 0.501425
+}

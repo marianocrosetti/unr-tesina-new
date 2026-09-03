@@ -1,0 +1,39 @@
+device=cuda params=6.33M train_games=19000 steps=1600 tokens/epoch=0.8M
+step 1/1600 loss 2.4395 lr 6.00e-06 1s
+step 50/1600 loss 1.8000 lr 3.00e-04 4s
+step 100/1600 loss 1.7389 lr 6.00e-04 7s
+step 150/1600 loss 1.6763 lr 5.99e-04 10s
+step 200/1600 loss 1.6624 lr 5.94e-04 13s
+step 250/1600 loss 1.6322 lr 5.87e-04 17s
+step 300/1600 loss 1.6166 lr 5.77e-04 20s
+step 350/1600 loss 1.5956 lr 5.64e-04 23s
+step 400/1600 loss 1.6102 lr 5.48e-04 26s
+EVAL {"step": 400, "train_loss": 1.6102092266082764, "val_loss": 1.6249501705169678, "elapsed": 26.647812843322754, "acc_argmax": 0.8071849385245902, "er_argmax": 0.44086193647540983, "er_tau1": 0.3507837507289082}
+step 450/1600 loss 1.5854 lr 5.31e-04 30s
+step 500/1600 loss 1.5860 lr 5.11e-04 33s
+step 550/1600 loss 1.5981 lr 4.89e-04 36s
+step 600/1600 loss 1.5470 lr 4.65e-04 40s
+step 650/1600 loss 1.5496 lr 4.40e-04 43s
+step 700/1600 loss 1.5664 lr 4.13e-04 46s
+step 750/1600 loss 1.5132 lr 3.86e-04 49s
+step 800/1600 loss 1.5079 lr 3.58e-04 53s
+EVAL {"step": 800, "train_loss": 1.5079416036605835, "val_loss": 1.626227855682373, "elapsed": 52.87216544151306, "acc_argmax": 0.8123078893442623, "er_argmax": 0.4502433401639344, "er_tau1": 0.36730910083172585}
+step 850/1600 loss 1.5042 lr 3.30e-04 56s
+step 900/1600 loss 1.4905 lr 3.02e-04 59s
+step 950/1600 loss 1.4778 lr 2.74e-04 63s
+step 1000/1600 loss 1.4231 lr 2.47e-04 66s
+step 1050/1600 loss 1.3855 lr 2.20e-04 69s
+step 1100/1600 loss 1.4314 lr 1.95e-04 72s
+step 1150/1600 loss 1.3635 lr 1.71e-04 76s
+step 1200/1600 loss 1.3489 lr 1.49e-04 79s
+EVAL {"step": 1200, "train_loss": 1.3489123582839966, "val_loss": 1.832723617553711, "elapsed": 79.07828879356384, "acc_argmax": 0.7781762295081968, "er_argmax": 0.4158875512295082, "er_tau1": 0.3704930128296002}
+step 1250/1600 loss 1.2992 lr 1.29e-04 82s
+step 1300/1600 loss 1.2599 lr 1.12e-04 86s
+step 1350/1600 loss 1.2323 lr 9.62e-05 89s
+step 1400/1600 loss 1.2112 lr 8.33e-05 92s
+step 1450/1600 loss 1.1463 lr 7.32e-05 95s
+step 1500/1600 loss 1.1536 lr 6.59e-05 99s
+step 1550/1600 loss 1.1460 lr 6.15e-05 102s
+step 1600/1600 loss 1.0759 lr 6.00e-05 105s
+EVAL {"step": 1600, "train_loss": 1.0758908987045288, "val_loss": 2.2382140159606934, "elapsed": 105.27141118049622, "acc_argmax": 0.7697873975409836, "er_argmax": 0.4100601946721312, "er_tau1": 0.37167242908041176}
+done runs/comp_edges_n8_fa0.5_20k/seed0

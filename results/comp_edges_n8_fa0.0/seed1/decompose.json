@@ -1,0 +1,230 @@
+{
+  "ckpt": "runs/comp_edges_n8_fa0.0/seed1/final.pt",
+  "data": "data/comp_edges_n8_fa0.0",
+  "expert_cfg": {
+    "mode": "composition",
+    "rho": 0.3,
+    "pi": 0.0,
+    "k": 4,
+    "alpha": 0.0,
+    "blind_plies": 4,
+    "rule_mod": 3,
+    "q_open": 1.0,
+    "n_open": 8,
+    "frac_a": 0.0,
+    "b_open": "edges",
+    "bias_seed": 12345
+  },
+  "n_train_positions": 985036,
+  "expert_states": {
+    "all": {
+      "n": 71563,
+      "expert_er": 0.4245373540330431,
+      "mixture_argmax_er": 0.3831449212581921,
+      "model_er_tau0.001": 0.4244948539307322,
+      "gain_tau0.001": -4.250010231088286e-05,
+      "acc_tau0.001": 0.7453334331512451,
+      "model_er_tau1.0": 0.346372586775874,
+      "gain_tau1.0": -0.07816476725716909,
+      "acc_tau1.0": 0.6602337956428528
+    },
+    "seen": {
+      "n": 37171,
+      "expert_er": 0.3350775245935452,
+      "mixture_argmax_er": 0.25538726426515296,
+      "model_er_tau0.001": 0.39122156753636805,
+      "gain_tau0.001": 0.05614404294282288,
+      "acc_tau0.001": 0.5916457176208496,
+      "model_er_tau1.0": 0.2891316559804874,
+      "gain_tau1.0": -0.04594586861305777,
+      "acc_tau1.0": 0.49375614523887634
+    },
+    "unseen": {
+      "n": 34392,
+      "expert_er": 0.5212258664805769,
+      "mixture_argmax_er": 0.5212258664805769,
+      "model_er_tau0.001": 0.4604567441541828,
+      "gain_tau0.001": -0.06076912232639409,
+      "acc_tau0.001": 0.9114397168159485,
+      "model_er_tau1.0": 0.4082387951555936,
+      "gain_tau1.0": -0.11298707132498331,
+      "acc_tau1.0": 0.8401634693145752
+    },
+    "seen_frac_by_phase": [
+      1.0,
+      0.42048267326732675,
+      0.05175210902011681
+    ],
+    "unseen_by_phase": [
+      {
+        "n": 0
+      },
+      {
+        "n": 16857,
+        "expert_er": 0.5158391172806549,
+        "mixture_argmax_er": 0.5158391172806549,
+        "model_er_tau0.001": 0.4650720122669106,
+        "gain_tau0.001": -0.05076710501374432,
+        "acc_tau0.001": 0.9332900643348694,
+        "model_er_tau1.0": 0.40944765988421594,
+        "gain_tau1.0": -0.10639145739643896,
+        "acc_tau1.0": 0.8676175475120544
+      },
+      {
+        "n": 17535,
+        "expert_er": 0.5264043341887653,
+        "mixture_argmax_er": 0.5264043341887653,
+        "model_er_tau0.001": 0.45601992781108325,
+        "gain_tau0.001": -0.07038440637768206,
+        "acc_tau0.001": 0.8904340267181396,
+        "model_er_tau1.0": 0.4070766718176759,
+        "gain_tau1.0": -0.11932766237108944,
+        "acc_tau1.0": 0.8137708306312561
+      }
+    ]
+  },
+  "own_play": {
+    "0.001": {
+      "match": {
+        "win": 0,
+        "draw": 0,
+        "loss": 300,
+        "illegal": 31
+      },
+      "score": 0.0,
+      "all": {
+        "n": 2739,
+        "model_er": 0.0,
+        "expert_er": 0.0,
+        "mixture_argmax_er": 0.0,
+        "gain": 0.0,
+        "acc": 0.9339174881343556
+      },
+      "seen": {
+        "n": 161,
+        "model_er": 0.0,
+        "expert_er": 0.0,
+        "mixture_argmax_er": 0.0,
+        "gain": 0.0,
+        "acc": 0.06832298136645963
+      },
+      "unseen": {
+        "n": 2578,
+        "model_er": 0.0,
+        "expert_er": 0.0,
+        "mixture_argmax_er": 0.0,
+        "gain": 0.0,
+        "acc": 0.9879751745539178
+      },
+      "seen_frac_by_phase": [
+        0.12636899747262004,
+        0.009417808219178082,
+        0.0
+      ],
+      "by_phase": [
+        {
+          "n": 1187,
+          "model_er": 0.0,
+          "expert_er": 0.0,
+          "mixture_argmax_er": 0.0,
+          "gain": 0.0,
+          "acc": 0.8736310025273799
+        },
+        {
+          "n": 1168,
+          "model_er": 0.0,
+          "expert_er": 0.0,
+          "mixture_argmax_er": 0.0,
+          "gain": 0.0,
+          "acc": 0.9837328767123288
+        },
+        {
+          "n": 384,
+          "model_er": 0.0,
+          "expert_er": 0.0,
+          "mixture_argmax_er": 0.0,
+          "gain": 0.0,
+          "acc": 0.96875
+        }
+      ]
+    },
+    "1.0": {
+      "match": {
+        "win": 0,
+        "draw": 0,
+        "loss": 300,
+        "illegal": 13
+      },
+      "score": 0.0,
+      "all": {
+        "n": 2934,
+        "model_er": 0.0,
+        "expert_er": 0.0,
+        "mixture_argmax_er": 0.0,
+        "gain": 0.0,
+        "acc": 0.9444444444444444
+      },
+      "seen": {
+        "n": 267,
+        "model_er": 0.0,
+        "expert_er": 0.0,
+        "mixture_argmax_er": 0.0,
+        "gain": 0.0,
+        "acc": 0.43820224719101125
+      },
+      "unseen": {
+        "n": 2667,
+        "model_er": 0.0,
+        "expert_er": 0.0,
+        "mixture_argmax_er": 0.0,
+        "gain": 0.0,
+        "acc": 0.9951256092988376
+      },
+      "seen_frac_by_phase": [
+        0.19123841617523168,
+        0.0319744204636291,
+        0.0
+      ],
+      "by_phase": [
+        {
+          "n": 1187,
+          "model_er": 0.0,
+          "expert_er": 0.0,
+          "mixture_argmax_er": 0.0,
+          "gain": 0.0,
+          "acc": 0.8736310025273799
+        },
+        {
+          "n": 1251,
+          "model_er": 0.0,
+          "expert_er": 0.0,
+          "mixture_argmax_er": 0.0,
+          "gain": 0.0,
+          "acc": 0.996802557953637
+        },
+        {
+          "n": 496,
+          "model_er": 0.0,
+          "expert_er": 0.0,
+          "mixture_argmax_er": 0.0,
+          "gain": 0.0,
+          "acc": 0.9818548387096774
+        }
+      ]
+    }
+  },
+  "own_play_opponent": {
+    "mode": "iid",
+    "rho": 0.0,
+    "pi": 0.0,
+    "k": 4,
+    "alpha": 0.0,
+    "blind_plies": 4,
+    "rule_mod": 3,
+    "q_open": 1.0,
+    "n_open": 8,
+    "frac_a": 0.5,
+    "b_open": "random",
+    "bias_seed": 12345
+  }
+}

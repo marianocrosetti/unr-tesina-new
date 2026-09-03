@@ -1,0 +1,174 @@
+/workspace/chess/c4/evaluate.py:118: RuntimeWarning: Mean of empty slice.
+  "er_nonbias": float(exp_er[~is_bias].mean()),
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:147: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+/workspace/chess/c4/evaluate.py:119: RuntimeWarning: Mean of empty slice.
+  "er_by_phase": [float(exp_er[phase == k].mean()) for k in range(3)],
+/workspace/chess/c4/evaluate.py:130: RuntimeWarning: Mean of empty slice.
+  "er_nonbias": float(er[~is_bias].mean()),
+/workspace/chess/c4/evaluate.py:132: RuntimeWarning: Mean of empty slice.
+  "acc_nonbias": float(acc[~is_bias].mean()),
+/usr/local/lib/python3.12/dist-packages/numpy/_core/_methods.py:147: RuntimeWarning: invalid value encountered in divide
+  ret = ret.dtype.type(ret / rcount)
+/workspace/chess/c4/evaluate.py:133: RuntimeWarning: Mean of empty slice.
+  "er_by_phase": [float(er[phase == k].mean()) for k in range(3)],
+{
+ "ckpt": "runs/comp_edges_n8_fa1.0/seed1/final.pt",
+ "data": "data/comp_edges_n8_fa1.0_test.npz",
+ "expert_cfg": {
+  "mode": "composition",
+  "rho": 0.3,
+  "pi": 0.0,
+  "k": 4,
+  "alpha": 0.0,
+  "blind_plies": 4,
+  "rule_mod": 3,
+  "q_open": 1.0,
+  "n_open": 8,
+  "frac_a": 1.0,
+  "b_open": "edges",
+  "bias_seed": 12345
+ },
+ "n_games": 3000,
+ "n_states": 23860,
+ "bias_state_frac": 1.0,
+ "realized": {
+  "error_rate": 0.0,
+  "random_error_rate": 0.0,
+  "shared_error_rate": 0.0
+ },
+ "theory": {
+  "acc_tau0": 1.0,
+  "acc_expert": 1.0,
+  "acc_gain_tau0": 0.0
+ },
+ "mass_on_nonmove_tokens_tau1": 9.644031524658203e-05,
+ "mass_on_illegal_cols_tau1": 2.578908606665209e-05,
+ "expert": {
+  "er": 0.21211232187761944,
+  "acc": 0.6902032690695725,
+  "best_er": 0.21211232187761944,
+  "best_acc": 0.6902032690695725,
+  "mixture_er": 0.21211232187761944,
+  "mixture_acc": 0.6902032690695725,
+  "er_bias": 0.21211232187761944,
+  "er_nonbias": NaN,
+  "er_by_phase": [
+   0.21211232187761944,
+   NaN,
+   NaN
+  ],
+  "acc_bias_by_phase": [
+   0.6902032690695725,
+   null,
+   null
+  ],
+  "n_bias_by_phase": [
+   23860,
+   0,
+   0
+  ]
+ },
+ "taus": {
+  "0.001": {
+   "er": 0.501342844257025,
+   "acc": 0.9976961016654968,
+   "er_bias": 0.501342844257025,
+   "er_nonbias": NaN,
+   "acc_bias": 0.9976961016654968,
+   "acc_nonbias": NaN,
+   "er_by_phase": [
+    0.501342844257025,
+    NaN,
+    NaN
+   ],
+   "acc_bias_by_phase": [
+    0.9976961016654968,
+    null,
+    null
+   ],
+   "acc_nonbias_by_phase": [
+    null,
+    null,
+    null
+   ],
+   "transcends_best_expert": true,
+   "gain_vs_best_expert": 0.2892305223794056
+  },
+  "0.1": {
+   "er": 0.5008514639281542,
+   "acc": 0.9971332550048828,
+   "er_bias": 0.5008514639281542,
+   "er_nonbias": NaN,
+   "acc_bias": 0.9971332550048828,
+   "acc_nonbias": NaN,
+   "er_by_phase": [
+    0.5008514639281542,
+    NaN,
+    NaN
+   ],
+   "acc_bias_by_phase": [
+    0.9971332550048828,
+    null,
+    null
+   ],
+   "acc_nonbias_by_phase": [
+    null,
+    null,
+    null
+   ],
+   "transcends_best_expert": true,
+   "gain_vs_best_expert": 0.28873914205053475
+  },
+  "0.3": {
+   "er": 0.49961810147540286,
+   "acc": 0.9955605864524841,
+   "er_bias": 0.49961810147540286,
+   "er_nonbias": NaN,
+   "acc_bias": 0.9955605864524841,
+   "acc_nonbias": NaN,
+   "er_by_phase": [
+    0.49961810147540286,
+    NaN,
+    NaN
+   ],
+   "acc_bias_by_phase": [
+    0.9955605864524841,
+    null,
+    null
+   ],
+   "acc_nonbias_by_phase": [
+    null,
+    null,
+    null
+   ],
+   "transcends_best_expert": true,
+   "gain_vs_best_expert": 0.28750577959778345
+  },
+  "1.0": {
+   "er": 0.4971723792197831,
+   "acc": 0.992388129234314,
+   "er_bias": 0.4971723792197831,
+   "er_nonbias": NaN,
+   "acc_bias": 0.992388129234314,
+   "acc_nonbias": NaN,
+   "er_by_phase": [
+    0.4971723792197831,
+    NaN,
+    NaN
+   ],
+   "acc_bias_by_phase": [
+    0.992388129234314,
+    null,
+    null
+   ],
+   "acc_nonbias_by_phase": [
+    null,
+    null,
+    null
+   ],
+   "transcends_best_expert": true,
+   "gain_vs_best_expert": 0.28506005734216366
+  }
+ }
+}
