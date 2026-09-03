@@ -172,3 +172,11 @@ Family A: optimal opening, truncated at ply 8. Family B: opening of quality q, o
 | 1.0  | 0.950 / 0.925 | 0.950 / 0.926 | 0.999 / 0.958 / 0.918 | 0.402 |
 Flat in q on the unseen support (0.940–0.950 mid, 0.922–0.926 late), std across seeds ≤ 0.002. Random openings = broad
 coverage, not a gap; the structured styles (nocenter / edges) are the real test and are running now.
+
+## Night 2 — structured opening styles for family B (real support gap), N=8, frac_A=0.5
+| B opening style | in-support endgame acc mid/late | endgame acc after OPTIMAL openings mid/late | Δ vs control (q=1) mid/late |
+| random q=0 | 0.883 / 0.875 | 0.940 / 0.924 | −0.010 / −0.002 |
+| nocenter (cols 0,1,2,4,5,6) | 0.889 / 0.886 | 0.927 / 0.920 | −0.023 / −0.006 |
+| edges (cols 0,1,5,6), seed 0 | 0.896 / 0.871 | 0.921 / 0.915 | −0.029 / −0.011 |
+Graded, small degradation with the severity of the shift; no cliff. Endgame skill demonstrated only on edge-heavy boards
+transfers to central boards at 0.92 vs 0.95. Seen fraction of midgame states in own play: 0.10–0.12 (vs 0.24 control).
