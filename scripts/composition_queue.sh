@@ -9,14 +9,14 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 PY=${PY:-python3}; export PY
-QS=${QS:-"0.0 0.25 0.5 1.0"}; N=${N:-8}; SEEDS=${SEEDS:-"0 1 2"}; N_GAMES=${N_GAMES:-80000}; WORKERS=${WORKERS:-10}; STEPS=${STEPS:-1600}
+QS=${QS:-"0.0 0.25 0.5 1.0"}; N=${N:-8}; FA=${FA:-0.5}; SEEDS=${SEEDS:-"0 1 2"}; N_GAMES=${N_GAMES:-80000}; WORKERS=${WORKERS:-10}; STEPS=${STEPS:-1600}
 TAUS="0.001 0.1 0.3 1.0"
 [ -f data/perfect_test.npz ] || OMP_NUM_THREADS=1 $PY -m c4.generate --out data/perfect_test --n-games 3000 --seed 2 --workers $WORKERS --mode iid --rho 0.0 > overnight/gen_perfect_test.json 2>/dev/null
 for Q in $QS; do
   # entries: a number = random-style opening of quality q ; a word (nocenter|edges) = structured opening style
   case $Q in
-    [0-9]*) TAG=comp_q${Q}_n${N}_fa0.5; GARGS="--mode composition --q-open $Q --n-open $N --frac-a 0.5" ;;
-    *)      TAG=comp_${Q}_n${N}_fa0.5;  GARGS="--mode composition --b-open $Q --n-open $N --frac-a 0.5" ;;
+    [0-9]*) TAG=comp_q${Q}_n${N}_fa${FA}; GARGS="--mode composition --q-open $Q --n-open $N --frac-a $FA" ;;
+    *)      TAG=comp_${Q}_n${N}_fa${FA};  GARGS="--mode composition --b-open $Q --n-open $N --frac-a $FA" ;;
   esac
   [ -f data/${TAG}.npz ]      || { echo "[$(date +%H:%M:%S)] gen $TAG"; OMP_NUM_THREADS=1 $PY -m c4.generate --out data/${TAG} --n-games $N_GAMES --seed 1 --workers $WORKERS $GARGS > overnight/gen_${TAG}.json 2>/dev/null; }
   [ -f data/${TAG}_test.npz ] || OMP_NUM_THREADS=1 $PY -m c4.generate --out data/${TAG}_test --n-games 3000 --seed 2 --workers $WORKERS $GARGS > overnight/gen_${TAG}_test.json 2>/dev/null
