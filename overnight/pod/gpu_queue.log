@@ -1,0 +1,91 @@
+[16:53:05] train iid_rho0.3_pi1.0 seed1 steps=1600
+  iid_rho0.3_pi1.0 seed1: expert acc=0.867 | tau=1 acc=0.807 | tau->0 acc=0.846 gain=-0.016
+[16:55:28] train iid_rho0.3_pi1.0 seed2 steps=1600
+  iid_rho0.3_pi1.0 seed2: expert acc=0.867 | tau=1 acc=0.805 | tau->0 acc=0.846 gain=-0.017
+[16:57:54] train sel_k4_a0.0 seed1 steps=1600
+  sel_k4_a0.0 seed1: expert acc=0.452 | tau=1 acc=0.473 | tau->0 acc=0.365 gain=-0.104
+[17:00:28] train sel_k4_a0.0 seed2 steps=1600
+  sel_k4_a0.0 seed2: expert acc=0.452 | tau=1 acc=0.473 | tau->0 acc=0.361 gain=-0.108
+[17:03:04] train sel_k4_a1.0 seed1 steps=1600
+  sel_k4_a1.0 seed1: expert acc=0.737 | tau=1 acc=0.945 | tau->0 acc=0.975 gain=+0.169
+[17:05:28] train sel_k4_a1.0 seed2 steps=1600
+  sel_k4_a1.0 seed2: expert acc=0.737 | tau=1 acc=0.945 | tau->0 acc=0.975 gain=+0.169
+[17:07:51] train iid_rho0.3_pi0.0 seed1 steps=1600
+  iid_rho0.3_pi0.0 seed1: expert acc=0.845 | tau=1 acc=0.760 | tau->0 acc=0.896 gain=+0.043
+[17:10:20] train iid_rho0.3_pi0.0 seed2 steps=1600
+  iid_rho0.3_pi0.0 seed2: expert acc=0.845 | tau=1 acc=0.764 | tau->0 acc=0.886 gain=+0.038
+[17:12:47] train rule_mod3_left_rho0.3 seed1 steps=1600
+  rule_mod3_left_rho0.3 seed1: expert acc=0.729 | tau=1 acc=0.670 | tau->0 acc=0.748 gain=+0.018
+[17:15:20] train rule_mod3_left_rho0.3 seed2 steps=1600
+  rule_mod3_left_rho0.3 seed2: expert acc=0.729 | tau=1 acc=0.672 | tau->0 acc=0.746 gain=+0.016
+[17:18:00] train sel_k4_a0.45 seed1 steps=1600
+  sel_k4_a0.45 seed1: expert acc=0.588 | tau=1 acc=0.714 | tau->0 acc=0.780 gain=+0.127
+[17:20:28] train sel_k4_a0.45 seed2 steps=1600
+  sel_k4_a0.45 seed2: expert acc=0.588 | tau=1 acc=0.716 | tau->0 acc=0.775 gain=+0.123
+[17:22:57] train iid_rho0.3_pi0.5 seed1 steps=1600
+  iid_rho0.3_pi0.5 seed1: expert acc=0.857 | tau=1 acc=0.780 | tau->0 acc=0.871 gain=+0.013
+[17:25:27] train iid_rho0.3_pi0.5 seed2 steps=1600
+  iid_rho0.3_pi0.5 seed2: expert acc=0.857 | tau=1 acc=0.779 | tau->0 acc=0.873 gain=+0.015
+[17:27:57] train blind_p4_rho0.0 seed1 steps=1600
+  blind_p4_rho0.0 seed1: expert acc=0.963 | tau=1 acc=0.874 | tau->0 acc=0.918 gain=-0.037
+[17:30:39] train blind_p4_rho0.0 seed2 steps=1600
+  blind_p4_rho0.0 seed2: expert acc=0.963 | tau=1 acc=0.874 | tau->0 acc=0.918 gain=-0.037
+[17:33:17] train sel_k4_a0.2 seed1 steps=1600
+  sel_k4_a0.2 seed1: expert acc=0.518 | tau=1 acc=0.597 | tau->0 acc=0.501 gain=-0.044
+[17:35:47] train sel_k4_a0.2 seed2 steps=1600
+  sel_k4_a0.2 seed2: expert acc=0.518 | tau=1 acc=0.600 | tau->0 acc=0.513 gain=-0.033
+[17:38:19] train sel_k4_a0.7 seed1 steps=1600
+  sel_k4_a0.7 seed1: expert acc=0.639 | tau=1 acc=0.804 | tau->0 acc=0.882 gain=+0.168
+[17:40:43] train sel_k4_a0.7 seed2 steps=1600
+  sel_k4_a0.7 seed2: expert acc=0.639 | tau=1 acc=0.804 | tau->0 acc=0.884 gain=+0.169
+[17:43:09] train comp_k4 seed1 steps=1600
+  comp_k4 seed1: expert acc=0.725 | tau=1 acc=0.667 | tau->0 acc=0.849 gain=+0.076
+[17:45:36] train comp_k4 seed2 steps=1600
+  comp_k4 seed2: expert acc=0.725 | tau=1 acc=0.666 | tau->0 acc=0.846 gain=+0.073
+[17:48:04] train iid_rho0.3_pi0.25 seed1 steps=1600
+  iid_rho0.3_pi0.25 seed1: expert acc=0.846 | tau=1 acc=0.765 | tau->0 acc=0.877 gain=+0.026
+[17:50:32] train iid_rho0.3_pi0.25 seed2 steps=1600
+  iid_rho0.3_pi0.25 seed2: expert acc=0.846 | tau=1 acc=0.764 | tau->0 acc=0.879 gain=+0.028
+[17:53:03] train iid_rho0.3_pi0.75 seed1 steps=1600
+  iid_rho0.3_pi0.75 seed1: expert acc=0.866 | tau=1 acc=0.795 | tau->0 acc=0.869 gain=+0.003
+[17:55:31] train iid_rho0.3_pi0.75 seed2 steps=1600
+  iid_rho0.3_pi0.75 seed2: expert acc=0.866 | tau=1 acc=0.794 | tau->0 acc=0.867 gain=+0.002
+[17:58:00] train iid_rho0.3_pi0.0_steps1600 seed0 steps=1600
+  iid_rho0.3_pi0.0_steps1600 seed0: expert acc=0.845 | tau=1 acc=0.763 | tau->0 acc=0.891 gain=+0.041
+[18:00:35] train iid_rho0.3_pi0.0_x4_steps1600 seed0 steps=1600
+  iid_rho0.3_pi0.0_x4_steps1600 seed0: expert acc=0.845 | tau=1 acc=0.758 | tau->0 acc=0.888 gain=+0.035
+[18:03:06] train iid_rho0.3_pi0.0_steps6400 seed0 steps=6400
+  iid_rho0.3_pi0.0_steps6400 seed0: expert acc=0.845 | tau=1 acc=0.786 | tau->0 acc=0.837 gain=-0.004
+[18:10:53] train iid_rho0.3_pi0.0_x4_steps6400 seed0 steps=6400
+  iid_rho0.3_pi0.0_x4_steps6400 seed0: expert acc=0.845 | tau=1 acc=0.789 | tau->0 acc=0.914 gain=+0.062
+[18:18:42] train iid_rho0.3_pi0.0_steps25600 seed0 steps=25600
+  iid_rho0.3_pi0.0_steps25600 seed0: expert acc=0.845 | tau=1 acc=0.790 | tau->0 acc=0.835 gain=-0.008
+[18:47:03] train iid_rho0.3_pi0.0_x4_steps25600 seed0 steps=25600
+  iid_rho0.3_pi0.0_x4_steps25600 seed0: expert acc=0.845 | tau=1 acc=0.807 | tau->0 acc=0.865 gain=+0.017
+[19:15:48] gen iid_rho0.3_pi1.0_x4 (320k games)
+[19:35:18] train iid_rho0.3_pi1.0_steps1600 seed0 steps=1600
+  iid_rho0.3_pi1.0_steps1600 seed0: expert acc=0.867 | tau=1 acc=0.807 | tau->0 acc=0.844 gain=-0.017
+[19:37:42] train iid_rho0.3_pi1.0_x4_steps1600 seed0 steps=1600
+  iid_rho0.3_pi1.0_x4_steps1600 seed0: expert acc=0.867 | tau=1 acc=0.805 | tau->0 acc=0.853 gain=-0.010
+[19:40:07] train iid_rho0.3_pi1.0_steps6400 seed0 steps=6400
+  iid_rho0.3_pi1.0_steps6400 seed0: expert acc=0.867 | tau=1 acc=0.823 | tau->0 acc=0.825 gain=-0.036
+[19:47:46] train iid_rho0.3_pi1.0_x4_steps6400 seed0 steps=6400
+  iid_rho0.3_pi1.0_x4_steps6400 seed0: expert acc=0.867 | tau=1 acc=0.826 | tau->0 acc=0.865 gain=+0.001
+[19:55:29] train iid_rho0.3_pi1.0_steps25600 seed0 steps=25600
+  iid_rho0.3_pi1.0_steps25600 seed0: expert acc=0.867 | tau=1 acc=0.825 | tau->0 acc=0.825 gain=-0.035
+[20:24:08] train iid_rho0.3_pi1.0_x4_steps25600 seed0 steps=25600
+  iid_rho0.3_pi1.0_x4_steps25600 seed0: expert acc=0.867 | tau=1 acc=0.839 | tau->0 acc=0.841 gain=-0.022
+[20:52:50] gen rule_mod3_left_rho0.3_x4 (320k games)
+[21:28:30] train rule_mod3_left_rho0.3_steps1600 seed0 steps=1600
+  rule_mod3_left_rho0.3_steps1600 seed0: expert acc=0.729 | tau=1 acc=0.670 | tau->0 acc=0.746 gain=+0.017
+[21:31:05] train rule_mod3_left_rho0.3_x4_steps1600 seed0 steps=1600
+  rule_mod3_left_rho0.3_x4_steps1600 seed0: expert acc=0.729 | tau=1 acc=0.670 | tau->0 acc=0.748 gain=+0.019
+[21:33:45] train rule_mod3_left_rho0.3_steps6400 seed0 steps=6400
+  rule_mod3_left_rho0.3_steps6400 seed0: expert acc=0.729 | tau=1 acc=0.691 | tau->0 acc=0.735 gain=+0.007
+[21:41:47] train rule_mod3_left_rho0.3_x4_steps6400 seed0 steps=6400
+  rule_mod3_left_rho0.3_x4_steps6400 seed0: expert acc=0.729 | tau=1 acc=0.693 | tau->0 acc=0.779 gain=+0.046
+[21:49:40] train rule_mod3_left_rho0.3_steps25600 seed0 steps=25600
+  rule_mod3_left_rho0.3_steps25600 seed0: expert acc=0.729 | tau=1 acc=0.699 | tau->0 acc=0.733 gain=+0.005
+[22:18:27] train rule_mod3_left_rho0.3_x4_steps25600 seed0 steps=25600
+  rule_mod3_left_rho0.3_x4_steps25600 seed0: expert acc=0.729 | tau=1 acc=0.708 | tau->0 acc=0.754 gain=+0.024
+[22:47:19] GPU QUEUE DONE

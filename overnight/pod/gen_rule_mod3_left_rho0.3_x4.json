@@ -1,0 +1,29 @@
+{
+  "expert": {
+    "mode": "rule",
+    "rho": 0.3,
+    "pi": 0.0,
+    "k": 4,
+    "alpha": 0.0,
+    "blind_plies": 4,
+    "rule_mod": 3,
+    "bias_seed": 12345
+  },
+  "tag": "rule_mod3_left_rho0.3",
+  "n_games": 320000,
+  "seed": 3,
+  "seconds": 2138.4,
+  "n_states": 7665091,
+  "mean_length": 23.953409375,
+  "error_rate": 0.2721328422584937,
+  "shared_error_rate": 0.16916446262673202,
+  "random_error_rate": 0.10296837963176171,
+  "bias_state_rate": 0.34594188118575503,
+  "error_possible_rate": 0.5538226486808833,
+  "error_rate_given_possible": 0.491371818950833,
+  "result_dist": {
+    "p1_win": 0.527546875,
+    "p2_win": 0.464815625,
+    "draw": 0.0076375
+  }
+}

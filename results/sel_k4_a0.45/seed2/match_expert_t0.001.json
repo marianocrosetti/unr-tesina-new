@@ -1,0 +1,21 @@
+{
+  "ckpt": "runs/sel_k4_a0.45/seed2/final.pt",
+  "opponent": "expert",
+  "opponent_cfg": {
+    "mode": "selection",
+    "rho": 0.3,
+    "pi": 0.0,
+    "k": 4,
+    "alpha": 0.45,
+    "blind_plies": 4,
+    "rule_mod": 3,
+    "bias_seed": 12345
+  },
+  "tau": 0.001,
+  "games": 200,
+  "win": 161,
+  "draw": 0,
+  "loss": 39,
+  "illegal_loss": 14,
+  "score": 0.805
+}

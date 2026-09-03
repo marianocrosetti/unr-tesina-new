@@ -1,0 +1,21 @@
+{
+  "ckpt": "runs/rule_mod3_left_rho0.3_x4_steps1600/seed0/final.pt",
+  "opponent": "expert",
+  "opponent_cfg": {
+    "mode": "rule",
+    "rho": 0.3,
+    "pi": 0.0,
+    "k": 4,
+    "alpha": 0.0,
+    "blind_plies": 4,
+    "rule_mod": 3,
+    "bias_seed": 12345
+  },
+  "tau": 1.0,
+  "games": 200,
+  "win": 65,
+  "draw": 2,
+  "loss": 133,
+  "illegal_loss": 2,
+  "score": 0.33
+}

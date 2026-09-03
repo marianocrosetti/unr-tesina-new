@@ -12,10 +12,10 @@
     "bias_seed": 12345
   },
   "tau": 0.001,
-  "games": 150,
-  "win": 109,
+  "games": 200,
+  "win": 142,
   "draw": 0,
-  "loss": 41,
-  "illegal_loss": 7,
-  "score": 0.7266666666666667
+  "loss": 58,
+  "illegal_loss": 15,
+  "score": 0.71
 }

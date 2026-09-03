@@ -1,0 +1,29 @@
+{
+  "expert": {
+    "mode": "blind",
+    "rho": 0.0,
+    "pi": 0.0,
+    "k": 4,
+    "alpha": 0.0,
+    "blind_plies": 4,
+    "rule_mod": 3,
+    "bias_seed": 12345
+  },
+  "tag": "blind_p4_rho0.0",
+  "n_games": 80000,
+  "seed": 1,
+  "seconds": 2026.2,
+  "n_states": 2219258,
+  "mean_length": 27.740725,
+  "error_rate": 0.037056529704973466,
+  "shared_error_rate": 0.037056529704973466,
+  "random_error_rate": 0.0,
+  "bias_state_rate": 0.14419233815987145,
+  "error_possible_rate": 0.5649086316237228,
+  "error_rate_given_possible": 0.06559738625069596,
+  "result_dist": {
+    "p1_win": 0.027975,
+    "p2_win": 0.668625,
+    "draw": 0.3034
+  }
+}
