@@ -163,3 +163,12 @@ Family A: optimal opening, truncated at ply 8. Family B: opening of quality q, o
 - Design weakness: random openings (q=0) do not create a support GAP, they create broad coverage — random openings visit
   central boards too. The proper disjoint-support test needs B's openings confined to a region that excludes A's
   continuations (e.g. B never plays central columns early; edges only). Adding styles `nocenter` and `edges`.
+
+## Night 2 — composition q-sweep complete (3 seeds each, N=8, frac_A=0.5)
+| q | in-support endgame acc mid/late | endgame acc after OPTIMAL openings mid/late | own-play acc open/mid/late | score vs perfect |
+| 0.0  | 0.883 / 0.875 | 0.940 / 0.924 | 0.995 / 0.946 / 0.943 | 0.371 |
+| 0.25 | 0.899 / 0.888 | 0.944 / 0.922 | 0.997 / 0.957 / 0.965 | 0.377 |
+| 0.5  | 0.904 / 0.896 | 0.944 / 0.922 | 0.997 / 0.962 / 0.962 | 0.398 |
+| 1.0  | 0.950 / 0.925 | 0.950 / 0.926 | 0.999 / 0.958 / 0.918 | 0.402 |
+Flat in q on the unseen support (0.940–0.950 mid, 0.922–0.926 late), std across seeds ≤ 0.002. Random openings = broad
+coverage, not a gap; the structured styles (nocenter / edges) are the real test and are running now.

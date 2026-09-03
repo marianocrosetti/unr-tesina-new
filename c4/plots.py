@@ -125,6 +125,34 @@ def main():
     ax.set_title("Where does the gain come from? (per-state change in expected reward)")
     fig.tight_layout(); fig.savefig(out / "fig4_favor.png", dpi=150); plt.close(fig)
 
+    # Fig 7: composition — endgame accuracy on the unseen support (after optimal openings) per condition ----
+    comp = sorted(t for t in by_tag if t.startswith("comp_") and "_n" in t and "_fa" in t)
+    if comp:
+        fig, ax = plt.subplots(figsize=(8, 4))
+        labels, ins, outs, own = [], [], [], []
+        for tag in comp:
+            a_mid, b_mid, o_mid = [], [], []
+            for p in sorted(Path(a.results).glob(f"{tag}/seed*/states.json")):
+                sp = p.parent / "states_perf.json"; dp = p.parent / "decompose.json"
+                if not sp.exists():
+                    continue
+                A = json.loads(p.read_text())["taus"]["0.001"]; B = json.loads(sp.read_text())["taus"]["0.001"]
+                a_mid.append(np.mean(A["acc_nonbias_by_phase"][1:])); b_mid.append(np.mean(B["acc_nonbias_by_phase"][1:]))
+                if dp.exists():
+                    O = json.loads(dp.read_text())["own_play"]["0.001"]; o_mid.append(np.mean([x["acc"] for x in O["by_phase"][1:]]))
+            if not a_mid:
+                continue
+            labels.append(tag.replace("_fa0.5", "").replace("comp_", "")); ins.append(np.mean(a_mid)); outs.append(np.mean(b_mid)); own.append(np.mean(o_mid) if o_mid else np.nan)
+        if labels:
+            x = np.arange(len(labels)); w = 0.27
+            ax.bar(x - w, ins, w, label="in-support endgames (B's own openings)")
+            ax.bar(x, outs, w, label="endgames after OPTIMAL openings (never in training)")
+            ax.bar(x + w, own, w, label="imitator's own-play endgames vs perfect")
+            ax.set_xticks(x); ax.set_xticklabels(labels, rotation=20, ha="right", fontsize=8); ax.set_ylim(0.5, 1.0)
+            ax.set_ylabel("P(optimal move), ply ≥ 8, τ→0"); ax.set_title("Skill composition across demonstrators with disjoint support"); ax.legend(fontsize=7)
+            fig.tight_layout(); fig.savefig(out / "fig7_composition.png", dpi=150)
+        plt.close(fig)
+
     # Fig 5: training curves -----------------------------------------------------------------------
     fig, axes = plt.subplots(1, 2, figsize=(10, 4))
     for p in sorted(Path(a.runs).glob("*/seed*/log.jsonl")):
