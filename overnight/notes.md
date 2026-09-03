@@ -180,3 +180,10 @@ coverage, not a gap; the structured styles (nocenter / edges) are the real test 
 | edges (cols 0,1,5,6), seed 0 | 0.896 / 0.871 | 0.921 / 0.915 | −0.029 / −0.011 |
 Graded, small degradation with the severity of the shift; no cliff. Endgame skill demonstrated only on edge-heavy boards
 transfers to central boards at 0.92 vs 0.95. Seen fraction of midgame states in own play: 0.10–0.12 (vs 0.24 control).
+
+## Night 2 — pod stopped by RunPod (account balance exhausted) at ~11:30 UTC (08:30 local), discovered 10:42 local
+- Billing: the pod ran continuously 02:00–11:30 UTC (0.75 USD/h), ~15 USD total since creation. So the night-2 and
+  night-3 queues had ~8 h to run and most likely completed; their results (comp controls FA=0/1, N=14, data-size law
+  decompositions, small/mid model and 20k-game variants) sit on the pod's /workspace volume, not yet pulled.
+- Locally: q-sweep (4 q × 3 seeds) + 4 decompositions. Structured styles (nocenter ×3, edges ×3) captured from the log only.
+- To recover: add ~2 USD, start the pod, rsync results/ + overnight/, then terminate the pod (volume no longer needed).
