@@ -46,8 +46,15 @@ def _worker(args):
     for g in range(n_games):
         b = Board()
         ids = rng.integers(cfg.n_experts(), size=2) if cfg.mode == "complementary" else np.zeros(2, dtype=int)
+        if cfg.mode == "composition":
+            fam = 0 if rng.random() < cfg.frac_a else 1
+            ids = np.array([fam, fam])
         expert_ids[g] = ids
+        truncated = False
         while not b.is_terminal():
+            if cfg.mode == "composition" and ids[0] == 0 and b.n_moves >= cfg.n_open:
+                truncated = True
+                break
             sc = solver.analyze(b.solver_key())
             t = b.n_moves
             scores[g, t] = [SCORE_INVALID if s == INVALID else s for s in sc]
@@ -57,7 +64,7 @@ def _worker(args):
             bias[g, t] = int(is_bias)
             b.play(col)
         n_moves[g] = b.n_moves
-        tokens[g] = moves_to_tokens(b.moves, b.result_token())
+        tokens[g] = moves_to_tokens(b.moves, None if truncated else b.result_token())
     solver.close()
     return tokens, scores, err, bias, n_moves, expert_ids
 
@@ -97,8 +104,9 @@ def generate(cfg: ExpertConfig, n_games: int, seed: int, workers: int, out: Path
         "bias_state_rate": float((bias[valid] == 1).mean()),
         "error_possible_rate": float(err_possible.mean()),
         "error_rate_given_possible": float((err[valid][err_possible] != ERR_NONE).mean()),
-        "result_dist": dict(zip(["p1_win", "p2_win", "draw"],
-                                (np.bincount(tokens[np.arange(n_games), n_moves + 1].astype(int), minlength=12)[9:12] / n_games).tolist())),
+        "result_dist": dict(zip(["p1_win", "p2_win", "draw", "truncated"],
+                                (np.bincount(tokens[np.arange(n_games), n_moves + 1].astype(int), minlength=12)[[9, 10, 11, 0]] / n_games).tolist())),
+        "family_a_frac": float((expert_ids[:, 0] == 0).mean()) if cfg.mode == "composition" else None,
     }
     np.savez(str(out) + ".npz", tokens=tokens, scores=scores, err=err, bias=bias, n_moves=n_moves, expert_ids=expert_ids)
     Path(str(out) + ".meta.json").write_text(json.dumps(meta, indent=2))
@@ -111,16 +119,19 @@ def main():
     ap.add_argument("--n-games", type=int, default=100_000)
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--workers", type=int, default=max(1, mp.cpu_count() - 1))
-    ap.add_argument("--mode", default="iid", choices=["iid", "complementary", "selection", "rule", "blind"])
+    ap.add_argument("--mode", default="iid", choices=["iid", "complementary", "selection", "rule", "composition", "blind"])
     ap.add_argument("--rho", type=float, default=0.3)
     ap.add_argument("--pi", type=float, default=0.0)
     ap.add_argument("--k", type=int, default=4)
     ap.add_argument("--alpha", type=float, default=0.0)
     ap.add_argument("--rule-mod", type=int, default=3)
+    ap.add_argument("--q-open", type=float, default=1.0)
+    ap.add_argument("--n-open", type=int, default=8)
+    ap.add_argument("--frac-a", type=float, default=0.5)
     ap.add_argument("--blind-plies", type=int, default=4)
     ap.add_argument("--bias-seed", type=int, default=12345)
     a = ap.parse_args()
-    cfg = ExpertConfig(mode=a.mode, rho=a.rho, pi=a.pi, k=a.k, alpha=a.alpha, rule_mod=a.rule_mod, blind_plies=a.blind_plies, bias_seed=a.bias_seed)
+    cfg = ExpertConfig(mode=a.mode, rho=a.rho, pi=a.pi, k=a.k, alpha=a.alpha, rule_mod=a.rule_mod, q_open=a.q_open, n_open=a.n_open, frac_a=a.frac_a, blind_plies=a.blind_plies, bias_seed=a.bias_seed)
     meta = generate(cfg, a.n_games, a.seed, a.workers, Path(a.out))
     print(json.dumps(meta, indent=2))
 

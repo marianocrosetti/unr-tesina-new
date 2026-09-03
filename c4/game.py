@@ -93,7 +93,8 @@ class Board:
         return RES_DRAW
 
 
-def moves_to_tokens(moves: list[int], result_tok: int) -> list[int]:
-    toks = [BOS] + [col_to_tok(m) for m in moves] + [result_tok]
+def moves_to_tokens(moves: list[int], result_tok: int | None) -> list[int]:
+    """result_tok=None -> truncated transcript (no result token, padded)."""
+    toks = [BOS] + [col_to_tok(m) for m in moves] + ([result_tok] if result_tok is not None else [])
     toks += [PAD] * (SEQ_LEN - len(toks))
     return toks

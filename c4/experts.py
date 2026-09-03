@@ -30,6 +30,16 @@ All experts know the exact solver. Errors are injected in one of three modes:
       of the move sequence, so a finite model *can* learn it. Prediction: tau->0 reproduces the
       rule exactly (acc on rule plies = P(leftmost legal is optimal)) and denoises the rest.
 
+  composition    (skill composition across demonstrators with disjoint support — the gap named
+      in Zhang et al. Sec. 4). Two expert families, each game played by one family on both sides:
+        A (prob frac_a): optimal for ply < n_open, and the transcript is TRUNCATED at ply n_open
+          (no endgame data, no result token).
+        B (prob 1-frac_a): opening quality q_open for ply < n_open (optimal with prob q_open, else a
+          uniformly random legal move), optimal for ply >= n_open.
+      So endgame competence is demonstrated only on states reached from q-quality openings, and
+      optimal openings lead to endgame states that appear in no transcript. Question: does the
+      imitator play the endgame well after *its own* (optimal) openings? q_open=1 is the control.
+
   blind          (shared bias localised in the opening). Every expert is optimal except
       that it never plays the centre column during the first `blind_plies` plies.
       Optional extra iid noise `rho`.
@@ -57,13 +67,16 @@ def hash01(key: str, seed: int) -> float:
 
 @dataclass
 class ExpertConfig:
-    mode: str = "iid"          # iid | complementary | selection | rule | blind
+    mode: str = "iid"          # iid | complementary | selection | rule | composition | blind
     rho: float = 0.3           # total error rate per visited state (iid / blind extra noise)
     pi: float = 0.0            # fraction of error budget that is shared (iid only)
     k: int = 4                 # number of experts (complementary / selection)
     alpha: float = 0.0         # routing strength (selection only)
     blind_plies: int = 4       # (blind only)
     rule_mod: int = 3          # (rule only) every ply divisible by rule_mod is a rule ply
+    q_open: float = 1.0        # (composition) opening quality of family B
+    n_open: int = 8            # (composition) plies of the opening / truncation point of family A
+    frac_a: float = 0.5        # (composition) fraction of games played by family A
     bias_seed: int = 12345     # seed of the shared hash (must be common to all experts)
 
     def to_dict(self):
@@ -85,6 +98,8 @@ class ExpertConfig:
             return f"sel_k{self.k}_a{self.alpha}"
         if self.mode == "rule":
             return f"rule_mod{self.rule_mod}_left_rho{self.rho}"
+        if self.mode == "composition":
+            return f"comp_q{self.q_open}_n{self.n_open}_fa{self.frac_a}"
         return f"blind_p{self.blind_plies}_rho{self.rho}"
 
 
@@ -168,6 +183,13 @@ class Experts:
                 return int(rng.choice(nonopt)), ERR_RANDOM, False
             return int(rng.choice(opt)), ERR_NONE, False
 
+        if cfg.mode == "composition":
+            # expert_id: 0 = family A, 1 = family B
+            if expert_id == 1 and board.n_moves < cfg.n_open and rng.random() >= cfg.q_open:
+                c = int(rng.choice(legal))
+                return c, (ERR_RANDOM if c in nonopt else ERR_NONE), True
+            return int(rng.choice(opt)), ERR_NONE, board.n_moves < cfg.n_open
+
         if cfg.mode == "blind":
             if board.n_moves < cfg.blind_plies:
                 cand_opt = [c for c in opt if c != W // 2]
@@ -219,6 +241,13 @@ class Experts:
                 out[0, opt] = (1 - pr) / len(opt)
                 if nonopt:
                     out[0, nonopt] = pr / len(nonopt)
+        elif cfg.mode == "composition":
+            # analytic baseline = family B's policy (the only family defined on the whole game)
+            if board.n_moves < cfg.n_open:
+                out[0, opt] += cfg.q_open / len(opt)
+                out[0, legal] += (1 - cfg.q_open) / len(legal)
+            else:
+                out[0, opt] = 1.0 / len(opt)
         elif cfg.mode == "blind":
             if board.n_moves < cfg.blind_plies:
                 cand_opt = [c for c in opt if c != W // 2]
