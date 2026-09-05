@@ -87,7 +87,7 @@ def main():
         fig, ax = plt.subplots(figsize=(6.5, 4))
         als = sorted((float(re.search(r"_a([\d.]+)", t).group(1)), t) for t in sel)
         xs = [al for al, _ in als]
-        for j, (key, lab, mk) in enumerate([("er", "E[r] τ→0 − best expert", "o"), ("acc", "acc τ→0 − best expert acc", "s")]):
+        for j, (key, lab, mk) in enumerate([("acc", "accuracy gain, P(optimal) − best expert", "o"), ("er", "reward gain, E[r] − best expert", "s")]):
             ys, es = [], []
             for al, t in als:
                 v = np.array([d["taus"][str(min(float(x) for x in d["taus"]))][key] - (d["expert"]["best_er"] if key == "er" else d["expert"]["best_acc"]) for d in sel[t]])
