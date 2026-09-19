@@ -1,0 +1,54 @@
+Pablo estuvo analizando por encima la propuesta v1 haciendo foco en la originalidad de los experimentos planteados y me mandó los screenshots de claude que están en devoluciones-pablo y que abajo transcribo. Y me dijo:
+
+> Te lo mando para mostrarte lo del nivel de correlación y ruido
+> Que tiene sentido
+> Y como sugería usarlo en los ejemplos de los papers
+> Quizás algo te sirve de inspiración cuando tengas q diseñar algo
+
+<AI-CONTENT-NOT-CURATED>
+Transcripción de las dos imagenes:
+- **imagen1.jpeg:**
+
+> **Lo que ninguno de los dos hace (la forma "obvia" que dejan sobre la mesa)**
+>
+> Dado que ambos papers citan explícitamente la literatura clásica de *ensembling* (Breiman 1996, bagging; Freund & Schapire, boosting), la manera obvia de cuantificar esto —que ninguno ejecuta— es la identidad estadística estándar de promedios de variables correlacionadas:
+>
+> $$\text{Var}\left(\frac{1}{n}\sum_i \xi_i\right) = \rho\sigma^2 + (1-\rho)\frac{\sigma^2}{n}$$
+>
+> Si el ruido de cada experto se descompone en una componente compartida y una independiente ($\xi_i = \sqrt{\rho}\,\xi_{\text{shared}} + \sqrt{1-\rho}\,\xi_i^{\text{indep}}$), esta fórmula predice que, sin importar cuántos expertos promediemos, la varianza residual **nunca baja de $\rho\sigma^2$** — es decir, el mecanismo de "denoising" tiene un techo que depende directamente de $\rho$. Ese es el experimento "obvio" que falta:
+>
+> - **En el toy model gaussiano**: variar $\rho$ en la descomposición del ruido y medir la caída en trascendencia.
+> - **En el knowledge graph**: en vez de corromper cada arista independientemente por experto (como hacen en la Sección 4), corromper una fracción compartida de aristas de la misma manera entre varios expertos (simulando "creencias erróneas compartidas") y variar esa fracción compartida.
+> - **En ajedrez**: comparar jugadores con sesgos sistemáticos compartidos (misma escuela/apertura/entrenamiento) contra jugadores heterogéneos, usando algo como una correlación de Pearson entre los vectores de error de cada jugador sobre el mismo conjunto de posiciones.
+>
+> Ninguno de los dos papers lo hace explícitamente — es, hasta donde vi, un hueco abierto en la línea de investigación.
+
+- **imagen2.jpeg:**
+
+> Supongamos que tenés $n$ "expertos", cada uno con un error $\xi_i$ (la diferencia entre lo que dice y la respuesta correcta). Asumimos que cada error tiene la misma varianza $\sigma^2$ (misma magnitud de error "típica"), pero pueden estar correlacionados entre sí con una correlación $\rho$ (constante para cualquier par de expertos — este es el modelo "equicorrelacionado", el caso más simple para razonar sobre esto).
+>
+> Formalmente:
+> - $\text{Var}(\xi_i) = \sigma^2$ para todo $i$
+> - $\text{Cov}(\xi_i, \xi_j) = \rho\sigma^2$ para todo $i \neq j$
+>
+> $\rho$ mide cuánto "se parecen" los errores de dos expertos distintos: $\rho = 0$ significa que sus errores son independientes (el error de uno no te dice nada del error del otro); $\rho = 1$ significa que cometen literalmente el mismo error siempre (comparten el sesgo por completo).
+</AI-CONTENT-NOT-CURATED>
+
+
+- Estas son algunas notas que hizo el agente cuando hicimos la propuesta y me pareció interesante rescatarlas ya que puede llegar a servir cuando redactemos (o incluso cuando diseñemos) los experimentos:
+<AI-CONTENT-NOT-CURATED>
+Mejoras al por qué de la elección de experimentos
+- Aporte original: Si bien [2] en modo *skill generalization* asume por definición `supp(p_test) ∩ supp(p̄) = ∅` (evalúa en datos no vistos), nuestro aporte original pretende ser medir cuánto de la ganancia por denoising ocurre en entradas vistas y cuánto en entradas nuevas.
+- Aporte original: [1] reporta que el modelo entrenado con partidas de jugadores de hasta 1500 **no** trasciende, y atribuye la diferencia a que ese conjunto de datos tiene menos diversidad de jugadas (medida como la entropía media de la distribución de acciones en posiciones frecuentes). Esa atribución es correlacional: con datos humanos no se puede intervenir sobre la estructura de correlación de los errores. Convertir esa correlación en una manipulación causal es el objetivo 3 de esta propuesta.
+- Aporte original: Como parte del objetivo 3 se contrastarán dos mecanismos que la teoría distingue: el **denoising por voto** (un experto, o varios, con errores idiosincráticos), para el cual [1] prueba que la trascendencia es imposible a temperatura 1 y solo aparece en el límite de baja temperatura; y la **selección de la fuente competente** (subpoblaciones cada una competente en una región del espacio de estados, con errores compartidos fuera de ella), para la cual [2] da una condición de trascendencia ya a temperatura 1, siempre que el experto competente genere datos con mayor frecuencia dentro de su región. La hipótesis a testear es que la curva de recompensa en función de la temperatura tiene forma cualitativamente distinta en ambos casos: en denoising, la ganancia sobre el mejor experto aparece solo al bajar la temperatura; en selección, la mezcla ruteada ya supera al mejor experto a temperatura 1 y bajar la temperatura la amplifica o la destruye según la fuerza del ruteo (ver 2). La propuesta trata así la temperatura como una variable de la que se mide la dependencia, no como una condición fija del protocolo.
+- Aporte original: Para separar dos cosas que [1] y [2] agrupan bajo "errores correlacionados" (la correlación *entre expertos* y la estructura *en el espacio de estados*) se necesitan dos construcciones de sesgo compartido con la misma tasa: una **no representable** (el conjunto de posiciones sesgadas se define por una función hash del tablero, de modo que nada en la posición lo predice) y una **representable** (una regla simple del historial, por ejemplo "cada k jugadas todos juegan la columna legal más a la izquierda"). La hipótesis es que la Proposición 2 de [1] describe el sesgo representable en todas las posiciones y el no representable solo en posiciones vistas; en posiciones nuevas, un sesgo compartido pero impredecible desde el estado debería ser eliminado por generalización, no por voto. Se incluirá además un **control negativo de descubrimiento** (todos los expertos evitan una jugada buena en la apertura) para verificar que el imitador no inventa lo que ningún experto muestra, como predicen ambos marcos.
+
+Mejoras al diseño de experimentos:
+- Constatación de que los experimentos siguen a la teoría: En la condición de selección proponemos parametrizar la fuerza del ruteo con un escalar α ∈ [0, 1]: en un estado de la región j, la jugada la genera el experto competente j con probabilidad α + (1 − α)/K y otro experto (que comete el error compartido) en caso contrario. Bajo ese esquema, la Proposición 2 de [1] (trascendencia a baja temperatura si y solo si el argmax de la mezcla supera al mejor experto) implica una predicción cuantitativa que [2] no formula: el argmax de la mezcla es la jugada óptima si y solo si α > α* = (K − 2)/(2K − 2) (para K = 4, α* = 1/3). Por debajo del umbral, bajar la temperatura debería **empeorar** al imitador, porque lo compromete con el error compartido. Es una predicción falsable con un barrido en α; una hipótesis secundaria es que un modelo finito muestre una transición suave alrededor de α* en lugar de un escalón, siguiendo el margen de la mezcla.
+- Métricas de trascendencia: (a) la recompensa esperada y la tasa de acierto **por estado**, sobre la distribución de posiciones que visitan los expertos, y (b) el **resultado de partida** cuando el modelo juega contra un experto o contra el jugador perfecto, sobre la distribución de posiciones que el propio modelo genera. La definición de trascendencia de [1] depende de la distribución de evaluación elegida, y los dos trabajos de referencia usan una distinta: [1] mide rating a partir de partidas jugadas por el modelo; [2] mide tasa de acierto por consulta. Se anticipa que ambas métricas pueden discrepar, porque el resultado de una partida depende de en qué momento se cometen los errores y no solo de cuántos se cometen; por eso proponemos medir siempre ambas y reportar cuál trasciende y cuál no.
+- Diseño de nuestro experimento: El imitador recibe únicamente la secuencia de jugadas (más un símbolo de resultado al final de la partida), nunca el tablero, ni la identidad del experto, ni ninguna señal de recompensa, igual que el modelo de [1] sobre PGN. Es una decisión con consecuencias: el modelo debe construir internamente una representación del estado a partir del historial, y toda generalización a posiciones nuevas (objetivos 4 y 5) es generalización de esa representación, no una tabla de consulta sobre posiciones. En particular, la composición del objetivo 5 exige que una representación construida a partir de historiales de una subpoblación sirva sobre historiales de otra.
+
+Mejores definiciones:
+- Mejor definición de "regionales disjuntas (o de solapamiento controlable): regiones del espacio de estados con **solapamiento medible**: la fracción de posiciones de evaluación que aparecen en el entrenamiento (la misma etiqueta visto / no visto del objetivo 4) es la medida operativa del hueco de soporte, y se reportará para cada condición. Anticipamos que construir un hueco real no es trivial en un juego: una subpoblación que juega "al azar" en la apertura no crea un hueco sino cobertura amplia, porque visita las mismas posiciones centrales que una apertura buena; el hueco requiere estilos estructurados (por ejemplo, una subpoblación que nunca juega columnas centrales, u otra que solo juega columnas de borde), con severidad graduable. El diseño tentativo es: subpoblación A, apertura óptima con partidas truncadas en la jugada N (nunca muestra finales); subpoblación B, apertura de estilo restringido y final óptimo; ninguna transcripción muestra un final después de una apertura buena. La métrica es la calidad del final del imitador en posiciones alcanzadas desde aperturas óptimas (fuera del soporte de ambas) y en su propio juego contra un oponente perfecto. Controles imprescindibles: entrenar solo con A, solo con B y con un control de soporte completo, para atribuir correctamente qué aporta cada subpoblación.
+- Definición operativa de "posición vista": Una posición de evaluación se considera **vista** si el mismo tablero (no necesariamente la misma secuencia de jugadas: el dominio admite transposiciones) aparece en el conjunto de entrenamiento. Esta etiqueta permite descomponer cualquier métrica en su componente sobre posiciones vistas y no vistas. Cautela: en un juego secuencial la fracción de posiciones vistas cae con la profundidad (las aperturas se repiten casi siempre, los finales casi nunca), así que "visto / no visto" está correlacionado con la fase del juego. Toda comparación visto vs. no visto se reportará estratificada por fase, para no atribuir a la memorización lo que es un efecto de la profundidad.
+</AI-CONTENT-NOT-CURATED>

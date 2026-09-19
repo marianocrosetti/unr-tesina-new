@@ -1,0 +1,1 @@
+Acá acumulo ideas que pueden estar buenas incluir aunque sea como trabajo a futuro pero que no hemos explorado.
