@@ -34,5 +34,6 @@ Si por el contrario se está trabajando ampliando algo que ya existe en el direc
 
 ## Reglas generales de los archivos
 - Algunos directorios tienen un `CURRENT_STATUS.md` con el estado actual de dicha sección por ejemplo `propuesta/CURRENT_STATUS.md`
+- Algunos directorios tienen un `CHANGE_LOG.md`. Ahí guardo como se llegó de una versión de los entregables a otras. También los prompts usados.
 - Las cosas que fueron marcadas como pendientes a ser cerradas antes de la versión final incluyen la string "TODO"
 - Hemos incluid en el directorio raiz pedazos de contenido generado no revisado en profundidad / curado usando los tags: <AI-CONTENT-NOT-CURATED>. El mismo puede no ser correcto o no ser válido para el trabajo que actualmente estamos haciendo.
