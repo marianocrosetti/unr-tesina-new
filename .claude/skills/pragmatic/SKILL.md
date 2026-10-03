@@ -5,7 +5,7 @@ disable-model-invocation: true
 ---
 
 ### Objetivo principal + Principio de pragmatismo
-Mi objetivo personal es entregar la tesina lo antes posible y recibirme por lo que el pragmatismo es clave. Ejemplo: luego de presentar la propuesta v1, Pablo me dijo que el título deberíamos cambiarlo, me sugierió uno o que piense otro parecido pero directamente adopté el título queesto sugiere Pablo. Este criterio debe imperar para todo el desarrollo.
+Mi objetivo personal es entregar la tesina lo antes posible y recibirme por lo que el pragmatismo es clave. Ejemplo: luego de presentar la propuesta v1, Pablo me dijo que el título deberíamos cambiarlo, me sugierió uno o que piense otro parecido pero directamente adopté el título que sugiere Pablo. Este criterio debe imperar para todo el desarrollo.
 
 ### Principio Risk-first
 El principio que dirige mi operarar es avanzar siempre sobre lo más riesgoso primero.
