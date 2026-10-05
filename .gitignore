@@ -25,3 +25,15 @@ exploracion-pre-propuesta/generated/results/**/*.pt
 exploracion-pre-propuesta/generated/results/**/*.npz
 
 .DS_Store
+
+# solver de Pons (AGPL) vendored por solver/setup.sh
+solver/third_party/
+*.egg-info/
+
+# artefactos pesados / binarios de generated/
+generated/memorizacion/*.pkl
+generated/memorizacion/seen_expert
+generated/cegueras/data/
+generated/cegueras/cache/
+generated/cegueras/build/
+generated/cegueras/logs/

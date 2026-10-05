@@ -12,9 +12,17 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["c4"]
-package-dir = {"c4" = "generated/c4"}
+packages = ["c4solver"]
+package-dir = {"c4solver" = "solver/c4solver"}
 
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["solver/tests"]
